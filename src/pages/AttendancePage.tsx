@@ -24,8 +24,6 @@ export const AttendancePage = () => {
         setIsSubmitting(true);
 
         try {
-            // Використовуємо UPSERT. Він сам знайде існуючий запис за 
-            // комбінацією group_name + date_only і оновить його, або створить новий.
             const { error } = await supabase
                 .from('attendance_reports')
                 .upsert({
@@ -34,35 +32,38 @@ export const AttendancePage = () => {
                     offline: offNum,
                     total: onNum + offNum,
                     date_only: todayDate,
-                    submitted_by: user?.username,
-                    updated_at: new Date().toISOString() // Додаємо час оновлення
+                    submitted_by: user?.username || 'Староста'
                 }, {
-                    // Вказуємо поля, по яким визначається унікальність
                     onConflict: 'group_name, date_only'
                 });
 
             if (error) throw error;
 
             setMessage({
-                text: 'Звіт успішно збережено/оновлено!',
+                text: 'Звіт успішно збережено!',
                 type: 'success'
             });
 
             setOnline('');
             setOffline('');
-        } catch (err) {
+        } catch (err: unknown) {
             console.error(err);
-            setMessage({ text: 'Помилка збереження в базу даних', type: 'error' });
+            // Виводимо конкретний текст помилки від Supabase
+            const errorMessage = err instanceof Error ? err.message : 'Зверніться до адміна';
+            setMessage({
+                text: `Помилка: ${errorMessage}`,
+                type: 'error'
+            });
         } finally {
             setIsSubmitting(false);
-            setTimeout(() => setMessage(null), 3000);
+            setTimeout(() => setMessage(null), 4000);
         }
     };
 
     return (
         <div style={{ padding: '20px', maxWidth: '450px', margin: '0 auto', fontFamily: 'sans-serif' }}>
-            <div style={{ background: '#fff', padding: '25px', borderRadius: '15px', border: '1px solid #e2e8f0' }}>
-                <h2 style={{ marginBottom: '5px' }}>Відмітка присутніх (DB)</h2>
+            <div style={{ background: '#fff', padding: '25px', borderRadius: '15px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
+                <h2 style={{ marginBottom: '5px' }}>Відмітка присутніх</h2>
                 <p style={{ color: '#64748b', marginBottom: '20px' }}>Група: <strong>{user?.group}</strong></p>
 
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
@@ -95,13 +96,14 @@ export const AttendancePage = () => {
                         disabled={isSubmitting}
                         style={{
                             padding: '12px',
-                            background: isSubmitting ? '#ccc' : '#007bff',
+                            background: isSubmitting ? '#94a3b8' : '#007bff',
                             color: '#fff',
                             border: 'none',
                             borderRadius: '8px',
                             fontWeight: 'bold',
                             marginTop: '10px',
-                            cursor: isSubmitting ? 'not-allowed' : 'pointer'
+                            cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                            transition: 'background 0.2s'
                         }}
                     >
                         {isSubmitting ? 'Обробка...' : 'Зберегти звіт'}
@@ -110,9 +112,10 @@ export const AttendancePage = () => {
 
                 {message && (
                     <div style={{
-                        marginTop: '15px', padding: '10px', borderRadius: '8px', textAlign: 'center',
+                        marginTop: '15px', padding: '12px', borderRadius: '8px', textAlign: 'center', fontSize: '14px',
                         backgroundColor: message.type === 'success' ? '#dcfce7' : '#fee2e2',
-                        color: message.type === 'success' ? '#166534' : '#991b1b'
+                        color: message.type === 'success' ? '#166534' : '#991b1b',
+                        border: `1px solid ${message.type === 'success' ? '#bbf7d0' : '#fecaca'}`
                     }}>
                         {message.text}
                     </div>
