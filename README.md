@@ -52,8 +52,9 @@ VITE_SUPABASE_URL=your_project_url
 VITE_SUPABASE_ANON_KEY=your_anon_key
 
 npm run dev
-
+```
 🗄 Database Setup
+```bash
 CREATE POLICY "Enable all actions for everyone"
 ON attendance_reports
 FOR ALL
@@ -62,9 +63,9 @@ USING (true);
 ALTER TABLE attendance_reports
 ADD CONSTRAINT unique_group_date
 UNIQUE (group_name, date_only);
-
+```
 📊 Data Model
-
+```bash
 attendance_reports:
 
 id - primary key
@@ -74,3 +75,8 @@ offline - offline students
 total - sum
 date_only - date
 submitted_by - author
+```
+
+## 📄 Ліцензія
+
+Цей проєкт поширюється під ліцензією [MIT](LICENSE).
