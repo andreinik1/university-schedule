@@ -8,3 +8,19 @@ export const ALL_GROUPS = [
   // 4 Курс
   "ГРС 4/1", "ТУР 4/1", "КН 4/1", "МЕН 4/1", "МЕН 4/2", "ПУА 4/1"
 ];
+
+// Мапер для PDF (латиниця)
+export const GROUP_TRANSLIT: Record<string, string> = {
+  "ГРС": "GRS",
+  "ТУР": "TUR",
+  "КН": "KN",
+  "МЕН": "MEN",
+  "ПУА": "PUA",
+  "Деканат": "Dean Office"
+};
+
+// Функція для конвертації назви групи
+export const translateGroupName = (group: string) => {
+  const [name, number] = group.split(' ');
+  return GROUP_TRANSLIT[name] ? `${GROUP_TRANSLIT[name]} ${number}` : group;
+};
