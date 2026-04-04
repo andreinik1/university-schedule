@@ -147,7 +147,7 @@ export const DeanPage = () => {
 
     return (
         <div style={{ padding: '20px', maxWidth: '1150px', margin: '0 auto', fontFamily: 'sans-serif' }}>
-            <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Деканат (Cloud DB)</h1>
+            <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Деканат</h1>
 
             <div style={{ background: '#fff', padding: '20px', borderRadius: '15px', border: '1px solid #e2e8f0', marginBottom: '30px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '15px' }}>
