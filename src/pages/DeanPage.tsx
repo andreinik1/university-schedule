@@ -51,8 +51,18 @@ export const DeanPage = () => {
 
     const handleDelete = async (id: number, groupName: string) => {
         if (window.confirm(`Видалити звіт групи ${groupName}?`)) {
-            const { error } = await supabase.from('attendance_reports').delete().eq('id', id);
-            if (!error) fetchReports();
+            try {
+                const { error } = await supabase
+                    .from('attendance_reports')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) throw error;
+                await fetchReports();
+            } catch (err) {
+                console.error('Delete error:', err);
+                alert('Помилка при видаленні');
+            }
         }
     };
 
@@ -73,7 +83,7 @@ export const DeanPage = () => {
     const handleAddNew = async (groupName: string) => {
         const newOnline = prompt(`Додати звіт для ${groupName}. Кількість ОНЛАЙН:`, "0");
         const newOffline = prompt(`Кількість ОФЛАЙН:`, "0");
-
+        
         if (newOnline !== null && newOffline !== null) {
             const on = parseInt(newOnline) || 0;
             const off = parseInt(newOffline) || 0;
@@ -87,7 +97,7 @@ export const DeanPage = () => {
                     date_only: activeDateStr,
                     submitted_by: 'Деканат'
                 }]);
-
+            
             if (!error) fetchReports();
             else console.error(error);
         }
@@ -207,19 +217,19 @@ export const DeanPage = () => {
                                             <td style={{ padding: '15px' }}><strong>{group}</strong></td>
                                             {r ? (
                                                 <>
-                                                    <td style={{ textAlign: 'center' }}>{r.online}</td>
-                                                    <td style={{ textAlign: 'center' }}>{r.offline}</td>
-                                                    <td style={{ textAlign: 'center', fontWeight: 'bold', color: '#007bff' }}>{r.total}</td>
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <button onClick={() => handleEdit(r)} style={{ marginRight: '8px', background: '#f59e0b', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>✎</button>
-                                                        <button onClick={() => handleDelete(r.id, group)} style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>✕</button>
+                                                    <td style={{ textAlign: 'center', padding: '15px' }}>{r.online}</td>
+                                                    <td style={{ textAlign: 'center', padding: '15px' }}>{r.offline}</td>
+                                                    <td style={{ textAlign: 'center', padding: '15px', fontWeight: 'bold', color: '#007bff' }}>{r.total}</td>
+                                                    <td style={{ textAlign: 'center', padding: '15px' }}>
+                                                        <button onClick={() => handleEdit(r)} style={{ marginRight: '8px', background: '#f59e0b', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer' }}>✎</button>
+                                                        <button onClick={() => handleDelete(r.id, group)} style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer' }}>✕</button>
                                                     </td>
                                                 </>
                                             ) : (
                                                 <>
                                                     <td colSpan={3} style={{ padding: '15px', color: '#ef4444', textAlign: 'center', fontStyle: 'italic' }}>Не здано</td>
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <button onClick={() => handleAddNew(group)} style={{ background: '#007bff', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>+</button>
+                                                    <td style={{ textAlign: 'center', padding: '15px' }}>
+                                                        <button onClick={() => handleAddNew(group)} style={{ background: '#007bff', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer'}}>+</button>
                                                     </td>
                                                 </>
                                             )}
