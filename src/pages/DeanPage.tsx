@@ -22,10 +22,12 @@ export const DeanPage = () => {
     const [showOnlyMissing, setShowOnlyMissing] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
 
-    const [filterDate, setFilterDate] = useState(() => {
-        return new Date().toISOString().split('T')[0];
-    });
-
+const [filterDate, setFilterDate] = useState(() => {
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000; // зміщення в мілісекундах
+    const localISOTime = new Date(now.getTime() - offset).toISOString().split('T')[0];
+    return localISOTime;
+});
     const activeDateStr = filterDate;
     const fetchReports = async () => {
         setIsLoading(true);

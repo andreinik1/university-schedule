@@ -14,7 +14,9 @@ export const AttendancePage = () => {
 
         const onNum = parseInt(online) || 0;
         const offNum = parseInt(offline) || 0;
-        const todayDate = new Date().toISOString().split('T')[0];
+        const now = new Date();
+        const offset = now.getTimezoneOffset() * 60000;
+        const todayDate = new Date(now.getTime() - offset).toISOString().split('T')[0];
         if (onNum < 0 || onNum > 35 || offNum < 0 || offNum > 35) {
             setMessage({ text: 'Кількість має бути від 0 до 35', type: 'error' });
             return;
