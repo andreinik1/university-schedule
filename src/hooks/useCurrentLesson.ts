@@ -13,8 +13,8 @@ export const useCurrentLesson = (room: string | undefined, index: number, select
     const checkTime = () => {
       // --- ТЕСТОВИЙ БЛОК (НЕ ВИДАЛЯТИ) ---
       // 2026-04-06 — це ПОНЕДІЛОК (monday)
-      //const now = new Date("2026-04-10T12:00:00"); 
-      const now = new Date();
+      //const now = new Date("2026-04-08T09:15:00"); 
+       const now = new Date();
       // ----------------------------------
 
       // Визначаємо назву поточного (тестового) дня
