@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'; // Змінено на HashRouter
 import { AuthProvider } from './context/AuthProvider';
 import { useAuth } from './hooks/useAuth';
 import { SchedulePage } from './pages/SchedulePage';
@@ -8,7 +8,6 @@ import { Navbar } from './components/layout/Navbar';
 import { DeanPage } from './pages/DeanPage';
 import { AttendancePage } from './pages/AttendancePage';
 
-// 1. Оголошуємо ProtectedRoute ПОЗА межами інших компонентів
 interface ProtectedRouteProps {
   children: React.ReactNode;
   allowedRoles: string[];
@@ -17,7 +16,6 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
 
-  // Поки йде перевірка сесії в Supabase, показуємо завантаження
   if (loading) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Завантаження...</div>;
   }
@@ -33,7 +31,6 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   return <>{children}</>;
 };
 
-// 2. Основні маршрути
 const AppRoutes = () => {
   const { user } = useAuth();
 
@@ -41,7 +38,6 @@ const AppRoutes = () => {
     <>
       <Navbar />
       <Routes>
-        {/* Якщо юзер залогінений, не пускаємо його на сторінку логіну */}
         <Route
           path="/login"
           element={!user ? <LoginPage /> : <Navigate to="/" replace />}
@@ -75,13 +71,13 @@ const AppRoutes = () => {
   );
 };
 
-// 3. Головний вхід
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter basename="/university-schedule/">
+      {/* HashRouter ідеально працює на GitHub Pages без додаткових налаштувань сервера */}
+      <HashRouter>
         <AppRoutes />
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }

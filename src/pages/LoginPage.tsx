@@ -17,7 +17,7 @@ export const LoginPage = () => {
             const isSuccess = await login(username, password);
 
             if (isSuccess) {
-                // Важливо: використовуємо "/path", React Router сам додасть basename
+                // В HashRouter ми просто вказуємо шлях від кореня
                 if (username === 'dean_office') {
                     navigate('/dean-reports', { replace: true });
                 } else {
