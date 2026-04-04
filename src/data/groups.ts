@@ -6,18 +6,28 @@ export const ALL_GROUPS = [
 ];
 
 // Мапер для PDF (латиниця)
+// Переконайся, що тут ЕК (кирилична Е)
 export const GROUP_TRANSLIT: Record<string, string> = {
   "ГРС": "GRS",
   "ТУР": "TUR",
   "КН": "KN",
   "МЕН": "MEN",
   "ПУА": "PUA",
-  "EK": "EK",
+  "ЕК": "EK",   // Кирилична Е
+  "EK": "EK",   // Латинська E (про всяк випадок)
   "Деканат": "Dean Office"
 };
 
-// Функція для конвертації назви групи
 export const translateGroupName = (group: string) => {
-  const [name, number] = group.split(' ');
+  if (!group) return "";
+  
+  // Використовуємо регулярку, щоб розбити по пробілу, ігноруючи їх кількість
+  const parts = group.trim().split(/\s+/);
+  
+  if (parts.length < 2) return group; // Якщо назва без номера
+
+  const name = parts[0]; // Назва (ГРС, ЕК...)
+  const number = parts[1]; // Номер (1/1, 2/1...)
+
   return GROUP_TRANSLIT[name] ? `${GROUP_TRANSLIT[name]} ${number}` : group;
 };
