@@ -1,0 +1,38 @@
+.windowWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24px 0; // Великий рівномірний відступ (вертикальний ритм)
+  position: relative;
+
+  // Можна додати ледь помітну пунктирну лінію по боках, якщо хочеться структури
+  &::before, &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    border-bottom: 2px dotted #e2e8f0; // Дуже легкі точки
+    margin: 0 20px;
+  }
+
+  .windowBadge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background-color: #f1f5f9; // Дуже світлий сіро-блакитний
+    border-radius: 20px;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+
+    span:first-child {
+      font-size: 0.9rem; // Емодзі трохи більший
+      filter: grayscale(1); // Робимо емодзі спокійнішим
+      opacity: 0.7;
+    }
+  }
+}

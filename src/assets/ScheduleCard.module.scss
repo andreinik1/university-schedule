@@ -1,0 +1,89 @@
+$gray-light: #e0e0e0;
+$gray-status: #bdbdbd;
+$text-main: #333;
+$text-secondary: #666;
+$bg-card: #ffffff;
+$gray-status: #bdbdbd;
+$blue-active: #007bff; // Твій блакитний для поточної пари
+$bg-active: #f0f7ff;
+
+.scheduleCard {
+  display: flex;
+  background-color: $bg-card;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+  overflow: hidden;
+  border: 1px solid $gray-light;
+  transition: transform 0.2s ease;
+  width: 100%;
+
+  &.activeCard {
+    border-color: $blue-active;
+    background-color: $bg-active;
+    transform: scale(1.02); // Трохи виділяємо активну пару
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .statusBar {
+    width: 6px;
+    background-color: $gray-status;
+    flex-shrink: 0;
+
+    &.activeStatus {
+      background-color: $blue-active;
+    }
+  }
+
+  .cardContent {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $text-main;
+      line-height: 1.2;
+    }
+
+    .timeTag {
+      margin: 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: $text-secondary;
+      background-color: #f0f2f5;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+  }
+
+  .cardDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+}
