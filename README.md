@@ -1,17 +1,76 @@
 # 🎓 Attendance System (Cloud DB)
 
-Система автоматизації обліку відвідуваності студентів, побудована на стеку **React + TypeScript + Supabase** з розділенням ролей для старост та деканату. Додаток дозволяє швидко та зручно збирати, обробляти та аналізувати дані про відвідуваність у режимі реального часу.
+![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-fast-purple?logo=vite)
+![Supabase](https://img.shields.io/badge/Supabase-Backend-green?logo=supabase)
+![Status](https://img.shields.io/badge/status-active-success)
 
-Для старост (Monitor Mode) реалізовано миттєву подачу звітів про кількість студентів онлайн/офлайн (приблизно за 10 секунд), можливість редагування вже відправлених даних за поточний день (через механізм `upsert`), а також валідацію введення з обмеженням у межах 0–35 студентів.
+> Modern web application for automated student attendance tracking with real-time monitoring and role-based access.
 
-Для деканату (Dean Mode) доступний глобальний моніторинг усіх груп у реальному часі, розширена система фільтрації та пошуку (за курсами, конкретними групами та режимом "тільки боржники"), можливість ручного керування звітами (додавання, редагування, видалення), а також експорт даних у формати **Excel (.xlsx)** та **PDF**.
+---
 
-Інтерфейс повністю адаптивний, реалізований за принципом Mobile-First, із підтримкою горизонтального скролу таблиць для зручної роботи на мобільних пристроях.
+## ✨ Overview
 
-Технологічний стек включає **React 18 + TypeScript** для фронтенду, **Vite** як збірник, та **Supabase (PostgreSQL + Row Level Security)** для бази даних, авторизації та роботи з API. Для експорту даних використовуються бібліотеки `xlsx`, `jspdf` та `jspdf-autotable`.
+**Attendance System** — це full-stack веб-додаток для автоматизації обліку відвідуваності студентів у навчальних закладах. Система оптимізує процес збору даних, мінімізує ручну роботу та забезпечує швидкий доступ до аналітики у реальному часі.
 
-Для запуску проєкту потрібно клонувати репозиторій:
+Реалізовано дві ролі:
+- 👨‍🎓 **Monitor (староста)** — швидке внесення даних  
+- 🏛️ **Dean (деканат)** — контроль, аналітика та управління  
+
+---
+
+## 🚀 Key Features
+
+- ⚡ Real-time data submission (до 10 секунд на звіт)  
+- 🔁 Upsert логіка без дублювання записів  
+- 🔍 Фільтрація та пошук (курси, групи, боржники)  
+- 🛠 Повний CRUD функціонал  
+- 📊 Експорт у Excel та PDF  
+- 📱 Адаптивний Mobile-First UI  
+- 🔒 Row Level Security (RLS)  
+
+---
+
+## 🧠 Tech Stack
+
+- **Frontend:** React 18 + TypeScript  
+- **Build Tool:** Vite  
+- **Backend:** Supabase (PostgreSQL + Auth + RLS)  
+- **Export:** xlsx, jspdf, jspdf-autotable  
+
+---
+
+## ⚙️ Getting Started
 
 ```bash
 git clone https://github.com/your-username/attendance-app.git
 cd attendance-app
+npm install
+
+VITE_SUPABASE_URL=your_project_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+
+npm run dev
+
+🗄 Database Setup
+CREATE POLICY "Enable all actions for everyone"
+ON attendance_reports
+FOR ALL
+USING (true);
+
+ALTER TABLE attendance_reports
+ADD CONSTRAINT unique_group_date
+UNIQUE (group_name, date_only);
+
+📊 Data Model
+
+attendance_reports:
+
+id - primary key
+group_name - group name (КН-21)
+online - online students
+offline - offline students
+total - sum
+date_only - date
+submitted_by - author
