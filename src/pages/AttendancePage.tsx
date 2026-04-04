@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { supabase } from '../api/supabaseClient'; // Імпортуємо клієнт
+import { supabase } from '../api/supabaseClient';
 
 export const AttendancePage = () => {
     const { user } = useAuth();
@@ -17,57 +17,42 @@ export const AttendancePage = () => {
         const todayDate = new Date().toLocaleDateString('uk-UA');
 
         if (onNum < 0 || onNum > 35 || offNum < 0 || offNum > 35) {
-            setMessage({ text: 'Кількість має быть від 0 до 35', type: 'error' });
+            setMessage({ text: 'Кількість має бути від 0 до 35', type: 'error' });
             return;
         }
 
         setIsSubmitting(true);
 
         try {
-            // Використовуємо upsert для автоматичного оновлення звіту, якщо група і дата збігаються
-            // Для цього в Supabase має бути налаштований унікальний індекс (Constraint) 
-            // або ми просто шукаємо запис вручну:
-
-            const { data: existing } = await supabase
+            // Використовуємо UPSERT. Він сам знайде існуючий запис за 
+            // комбінацією group_name + date_only і оновить його, або створить новий.
+            const { error } = await supabase
                 .from('attendance_reports')
-                .select('id')
-                .eq('group_name', user?.group)
-                .eq('date_only', todayDate)
-                .single();
-
-            const reportData = {
-                group_name: user?.group || 'Невідома група',
-                online: onNum,
-                offline: offNum,
-                total: onNum + offNum,
-                date_only: todayDate,
-                submitted_by: user?.username
-            };
-
-            let error;
-            if (existing) {
-                // Оновлюємо
-                const { error: updateError } = await supabase
-                    .from('attendance_reports')
-                    .update(reportData)
-                    .eq('id', existing.id);
-                error = updateError;
-            } else {
-                // Створюємо новий
-                const { error: insertError } = await supabase
-                    .from('attendance_reports')
-                    .insert([reportData]);
-                error = insertError;
-            }
+                .upsert({
+                    group_name: user?.group || 'Невідома група',
+                    online: onNum,
+                    offline: offNum,
+                    total: onNum + offNum,
+                    date_only: todayDate,
+                    submitted_by: user?.username,
+                    updated_at: new Date().toISOString() // Додаємо час оновлення
+                }, {
+                    // Вказуємо поля, по яким визначається унікальність
+                    onConflict: 'group_name, date_only'
+                });
 
             if (error) throw error;
 
-            setMessage({ text: existing ? 'Звіт оновлено в базі!' : 'Звіт надіслано в базу!', type: 'success' });
+            setMessage({
+                text: 'Звіт успішно збережено/оновлено!',
+                type: 'success'
+            });
+
             setOnline('');
             setOffline('');
         } catch (err) {
             console.error(err);
-            setMessage({ text: 'Помилка підключення до бази даних', type: 'error' });
+            setMessage({ text: 'Помилка збереження в базу даних', type: 'error' });
         } finally {
             setIsSubmitting(false);
             setTimeout(() => setMessage(null), 3000);
@@ -90,7 +75,7 @@ export const AttendancePage = () => {
                             value={online}
                             onChange={(e) => setOnline(e.target.value.replace(/\D/g, ''))}
                             placeholder="0-35"
-                            style={{ width: '94%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                            style={{ width: '100%', boxSizing: 'border-box', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
                         />
                     </div>
                     <div>
@@ -102,7 +87,7 @@ export const AttendancePage = () => {
                             value={offline}
                             onChange={(e) => setOffline(e.target.value.replace(/\D/g, ''))}
                             placeholder="0-35"
-                            style={{ width: '94%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                            style={{ width: '100%', boxSizing: 'border-box', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
                         />
                     </div>
                     <button
@@ -115,10 +100,11 @@ export const AttendancePage = () => {
                             border: 'none',
                             borderRadius: '8px',
                             fontWeight: 'bold',
+                            marginTop: '10px',
                             cursor: isSubmitting ? 'not-allowed' : 'pointer'
                         }}
                     >
-                        {isSubmitting ? 'Надсилання...' : 'Надіслати звіт'}
+                        {isSubmitting ? 'Обробка...' : 'Зберегти звіт'}
                     </button>
                 </form>
 

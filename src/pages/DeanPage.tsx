@@ -70,7 +70,29 @@ export const DeanPage = () => {
         }
     };
 
-    // --- ФУНКЦІЇ ЕКСПОРТУ ---
+    const handleAddNew = async (groupName: string) => {
+        const newOnline = prompt(`Додати звіт для ${groupName}. Кількість ОНЛАЙН:`, "0");
+        const newOffline = prompt(`Кількість ОФЛАЙН:`, "0");
+
+        if (newOnline !== null && newOffline !== null) {
+            const on = parseInt(newOnline) || 0;
+            const off = parseInt(newOffline) || 0;
+            const { error } = await supabase
+                .from('attendance_reports')
+                .insert([{
+                    group_name: groupName,
+                    online: on,
+                    offline: off,
+                    total: on + off,
+                    date_only: activeDateStr,
+                    submitted_by: 'Деканат'
+                }]);
+
+            if (!error) fetchReports();
+            else console.error(error);
+        }
+    };
+
     const exportToExcel = () => {
         const dataToExport = ALL_GROUPS.map(group => {
             const r = reports.find(rep => rep.group_name === group);
@@ -122,7 +144,7 @@ export const DeanPage = () => {
                     <input
                         type="text" placeholder="🔍 Пошук групи..." value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', flex: '1' }}
+                        style={{ padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', flex: '1', minWidth: '200px' }}
                     />
                     <input
                         type="date" value={filterDate} onChange={(e) => setFilterDate(e.target.value)}
@@ -134,7 +156,7 @@ export const DeanPage = () => {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
-                    <div style={{ display: 'flex', gap: '5px' }}>
+                    <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
                         {[1, 2, 3, 4].map(c => (
                             <button key={c} onClick={() => setSelectedCourse(selectedCourse === c ? null : c)}
                                 style={{ padding: '8px 12px', borderRadius: '8px', cursor: 'pointer', border: '1px solid #007bff', background: selectedCourse === c ? '#007bff' : '#fff', color: selectedCourse === c ? '#fff' : '#007bff' }}>
@@ -155,11 +177,11 @@ export const DeanPage = () => {
                 </div>
             </div>
 
-            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
                 {isLoading ? (
                     <p style={{ padding: '20px', textAlign: 'center' }}>Синхронізація з базою...</p>
                 ) : (
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '700px' }}>
                         <thead style={{ background: '#f8fafc' }}>
                             <tr>
                                 <th style={{ padding: '15px', textAlign: 'left', borderBottom: '2px solid #e2e8f0' }}>Група</th>
@@ -194,7 +216,12 @@ export const DeanPage = () => {
                                                     </td>
                                                 </>
                                             ) : (
-                                                <td colSpan={4} style={{ padding: '15px', color: '#ef4444', textAlign: 'center', fontStyle: 'italic' }}>Не здано</td>
+                                                <>
+                                                    <td colSpan={3} style={{ padding: '15px', color: '#ef4444', textAlign: 'center', fontStyle: 'italic' }}>Не здано</td>
+                                                    <td style={{ textAlign: 'center' }}>
+                                                        <button onClick={() => handleAddNew(group)} style={{ background: '#007bff', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>+</button>
+                                                    </td>
+                                                </>
                                             )}
                                         </tr>
                                     );
