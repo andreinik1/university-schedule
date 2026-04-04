@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth'; // або '../context/AuthContext'
+import { useAuth } from '../../hooks/useAuth';
+// Імпортуємо лого, щоб Vite його бачив
 
 export const Navbar = () => {
     const { user, logout } = useAuth();
@@ -11,42 +12,73 @@ export const Navbar = () => {
         <nav style={{
             display: 'flex',
             justifyContent: 'space-between',
+            alignItems: 'center',
             padding: '10px 20px',
-            background: '#f8f9fa',
-            borderBottom: '1px solid #ddd',
-            marginBottom: '20px'
+            background: '#fff',
+            borderBottom: '1px solid #e2e8f0',
+            marginBottom: '20px',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+            position: 'sticky',
+            top: 0,
+            zIndex: 1000
         }}>
-            <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-                <Link to="/" style={{ fontWeight: 'bold', textDecoration: 'none', color: '#333' }}>📅 Розклад</Link>
+            {/* Ліва частина: Логотип + Навігація */}
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+                    {/* Контейнер для логотипу з фоном */}
+                    <div style={{
+                        backgroundColor: '#16a34a', // Зелений колір
+                        padding: '5px',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <img
+                            src="./logo.png"
+                            alt="MNAU Logo"
+                            style={{ height: '32px', width: 'auto', display: 'block' }}
+                        />
+                    </div>
 
-                {/* Кнопка тільки для Старости */}
-                {user.role === 'monitor' && (
-                    <Link to="/attendance" style={{ textDecoration: 'none', color: '#007bff' }}>📝 Відвідуваність</Link>
-                )}
+                    <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.1' }}>
+                        <span style={{ fontWeight: '800', color: '#1e293b', fontSize: '16px' }}>MNAU</span>
+                        <span style={{ fontWeight: '600', color: '#28a745', fontSize: '12px' }}>Attendance</span>
+                    </div>
+                </Link>
 
-                {/* Кнопка тільки для Деканату */}
-                {user.role === 'dean' && (
-                    <Link to="/dean-reports" style={{ textDecoration: 'none', color: '#28a745' }}>📊 Звіти</Link>
-                )}
+                <div style={{ display: 'flex', gap: '15px', marginLeft: '10px' }}>
+                    <Link to="/" style={{ fontWeight: '600', textDecoration: 'none', color: '#475569', fontSize: '14px' }}>📅 Розклад</Link>
+
+                    {user.role === 'monitor' && (
+                        <Link to="/attendance" style={{ fontWeight: '600', textDecoration: 'none', color: '#007bff', fontSize: '14px' }}>📝 Відвідуваність</Link>
+                    )}
+
+                    {user.role === 'dean' && (
+                        <Link to="/dean-reports" style={{ fontWeight: '600', textDecoration: 'none', color: '#28a745', fontSize: '14px' }}>📊 Звіти</Link>
+                    )}
+                </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '14px', color: '#666' }}>{user.username}</span>
+            {/* Права частина: Інфо про юзера + Вихід */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e293b' }}>{user.username}</div>
+                    <div style={{ fontSize: '11px', color: '#64748b' }}>{user.group}</div>
+                </div>
+
                 <button
                     onClick={() => { logout(); navigate('/login'); }}
                     style={{
-                        padding: '8px 16px',
+                        padding: '8px 14px',
                         backgroundColor: '#fff',
                         color: '#ef4444',
                         border: '1.5px solid #ef4444',
                         borderRadius: '8px',
-                        fontSize: '14px',
-                        fontWeight: '600',
+                        fontSize: '13px',
+                        fontWeight: '700',
                         cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
+                        transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = '#ef4444';
