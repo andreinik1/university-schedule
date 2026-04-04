@@ -1,127 +1,123 @@
 import { useState, useEffect } from 'react';
 import { ALL_GROUPS, translateGroupName } from '../data/groups';
+import { supabase } from '../api/supabaseClient';
 import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 interface IReport {
     id: number;
-    group: string;
+    group_name: string;
     online: number;
     offline: number;
     total: number;
-    dateOnly: string;
-    fullTime: string;
+    date_only: string;
+    full_time: string;
 }
 
 export const DeanPage = () => {
-    // Змінюємо на динамічний стан для можливості редагування
-    const [reports, setReports] = useState<IReport[]>(() => {
-        const data = localStorage.getItem('attendance_reports');
-        return data ? JSON.parse(data) : [];
-    });
-
+    const [reports, setReports] = useState<IReport[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [showOnlyMissing, setShowOnlyMissing] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
 
     const [filterDate, setFilterDate] = useState(() => {
-        const today = new Date();
-        return today.toISOString().split('T')[0];
+        return new Date().toISOString().split('T')[0];
     });
 
-    const activeDate = new Date(filterDate).toLocaleDateString('uk-UA');
+    const activeDateStr = new Date(filterDate).toLocaleDateString('uk-UA');
 
-    // Синхронізація змін з localStorage
+    const fetchReports = async () => {
+        setIsLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('attendance_reports')
+                .select('*')
+                .eq('date_only', activeDateStr);
+
+            if (error) throw error;
+            setReports(data || []);
+        } catch (err) {
+            console.error('Error fetching reports:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        localStorage.setItem('attendance_reports', JSON.stringify(reports));
-    }, [reports]);
+        fetchReports();
+    }, [filterDate]);
 
-    // --- ФУНКЦІЯ ВИДАЛЕННЯ (ОЧИЩЕННЯ) ---
-    const handleDelete = (groupName: string) => {
-        if (window.confirm(`Ви впевнені, що хочете видалити звіт для групи ${groupName} за ${activeDate}?`)) {
-            const updatedReports = reports.filter(r => !(r.group === groupName && r.dateOnly === activeDate));
-            setReports(updatedReports);
+    const handleDelete = async (id: number, groupName: string) => {
+        if (window.confirm(`Видалити звіт групи ${groupName}?`)) {
+            const { error } = await supabase.from('attendance_reports').delete().eq('id', id);
+            if (!error) fetchReports();
         }
     };
 
-    // --- ФУНКЦІЯ РЕДАГУВАННЯ ---
-    const handleEdit = (groupName: string) => {
-        const report = reports.find(r => r.group === groupName && r.dateOnly === activeDate);
-        if (!report) return;
-
-        const newOnline = prompt("Введіть кількість ОНЛАЙН:", report.online.toString());
-        const newOffline = prompt("Введіть кількість ОФЛАЙН:", report.offline.toString());
-
+    const handleEdit = async (report: IReport) => {
+        const newOnline = prompt("Кількість ОНЛАЙН:", report.online.toString());
+        const newOffline = prompt("Кількість ОФЛАЙН:", report.offline.toString());
         if (newOnline !== null && newOffline !== null) {
-            const onlineNum = parseInt(newOnline) || 0;
-            const offlineNum = parseInt(newOffline) || 0;
-
-            const updatedReports = reports.map(r => {
-                if (r.group === groupName && r.dateOnly === activeDate) {
-                    return {
-                        ...r,
-                        online: onlineNum,
-                        offline: offlineNum,
-                        total: onlineNum + offlineNum,
-                        fullTime: `${activeDate}, ${new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })} (ред.)`
-                    };
-                }
-                return r;
-            });
-            setReports(updatedReports);
+            const on = parseInt(newOnline) || 0;
+            const off = parseInt(newOffline) || 0;
+            const { error } = await supabase
+                .from('attendance_reports')
+                .update({ online: on, offline: off, total: on + off })
+                .eq('id', report.id);
+            if (!error) fetchReports();
         }
     };
 
-    const clearFilters = () => {
-        setSearchTerm('');
-        setShowOnlyMissing(false);
-        setSelectedCourse(null);
-        setFilterDate(new Date().toISOString().split('T')[0]);
-    };
-
+    // --- ФУНКЦІЇ ЕКСПОРТУ ---
     const exportToExcel = () => {
-        const dayReports = reports.filter(r => r.dateOnly === activeDate);
         const dataToExport = ALL_GROUPS.map(group => {
-            const r = dayReports.find(rep => rep.group === group);
+            const r = reports.find(rep => rep.group_name === group);
             return {
-                "Дата": activeDate,
+                "Дата": activeDateStr,
                 "Група": group,
                 "Онлайн": r ? r.online : "0",
                 "Офлайн": r ? r.offline : "0",
-                "Всього": r ? r.total : "0"
+                "Всього": r ? r.total : "0",
+                "Статус": r ? "Здано" : "Відсутній"
             };
         });
         const ws = XLSX.utils.json_to_sheet(dataToExport);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Attendance");
-        XLSX.writeFile(wb, `Report_${activeDate}.xlsx`);
+        XLSX.writeFile(wb, `Report_${activeDateStr}.xlsx`);
     };
 
     const exportToPDF = () => {
         const doc = new jsPDF();
-        doc.text(`Attendance Report - ${activeDate}`, 14, 15);
-        const dayReports = reports.filter(r => r.dateOnly === activeDate);
+        doc.text(`Attendance Report - ${activeDateStr}`, 14, 15);
+
         const tableData = ALL_GROUPS.map(group => {
-            const r = dayReports.find(rep => rep.group === group);
-            return [translateGroupName(group), r ? r.online.toString() : "0", r ? r.offline.toString() : "0", r ? r.total.toString() : "0", r ? "OK" : "Missing"];
+            const r = reports.find(rep => rep.group_name === group);
+            return [
+                translateGroupName(group),
+                r ? r.online.toString() : "0",
+                r ? r.offline.toString() : "0",
+                r ? r.total.toString() : "0",
+                r ? "OK" : "Missing"
+            ];
         });
+
         autoTable(doc, {
             head: [['Group', 'Online', 'Offline', 'Total', 'Status']],
             body: tableData,
             startY: 25,
-            styles: { font: 'helvetica', fontSize: 10 },
             headStyles: { fillColor: [0, 123, 255] }
         });
-        doc.save(`Report_${activeDate}.pdf`);
+        doc.save(`Report_${activeDateStr}.pdf`);
     };
 
     return (
         <div style={{ padding: '20px', maxWidth: '1150px', margin: '0 auto', fontFamily: 'sans-serif' }}>
-            <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Панель керування деканату</h1>
+            <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Деканат (Cloud DB)</h1>
 
-            {/* ПАНЕЛЬ ФІЛЬТРІВ */}
-            <div style={{ background: '#fff', padding: '20px', borderRadius: '15px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', marginBottom: '30px' }}>
+            <div style={{ background: '#fff', padding: '20px', borderRadius: '15px', border: '1px solid #e2e8f0', marginBottom: '30px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '15px' }}>
                     <input
                         type="text" placeholder="🔍 Пошук групи..." value={searchTerm}
@@ -132,12 +128,12 @@ export const DeanPage = () => {
                         type="date" value={filterDate} onChange={(e) => setFilterDate(e.target.value)}
                         style={{ padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 'bold' }}
                     />
-                    <button onClick={clearFilters} style={{ padding: '10px 15px', borderRadius: '8px', border: '1px solid #64748b', background: '#f8fafc', cursor: 'pointer' }}>
-                        Скинути
+                    <button onClick={fetchReports} style={{ padding: '10px 15px', borderRadius: '8px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+                        Оновити ↻
                     </button>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '15px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
                     <div style={{ display: 'flex', gap: '5px' }}>
                         {[1, 2, 3, 4].map(c => (
                             <button key={c} onClick={() => setSelectedCourse(selectedCourse === c ? null : c)}
@@ -159,52 +155,53 @@ export const DeanPage = () => {
                 </div>
             </div>
 
-            {/* ТАБЛИЦЯ */}
-            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', overflowX: 'auto', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead style={{ background: '#f8fafc' }}>
-                        <tr>
-                            <th style={{ padding: '15px', textAlign: 'left', borderBottom: '2px solid #e2e8f0' }}>Група</th>
-                            <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Онлайн</th>
-                            <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Офлайн</th>
-                            <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Всього</th>
-                            <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Час звіту</th>
-                            <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Дії</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {ALL_GROUPS
-                            .filter(g => {
-                                const matchesSearch = g.toLowerCase().includes(searchTerm.toLowerCase());
-                                const matchesCourse = selectedCourse ? g.includes(` ${selectedCourse}/`) : true;
-                                return matchesSearch && matchesCourse;
-                            })
-                            .map(group => {
-                                const r = reports.find(rep => rep.group === group && rep.dateOnly === activeDate);
-                                if (showOnlyMissing && r) return null;
+            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                {isLoading ? (
+                    <p style={{ padding: '20px', textAlign: 'center' }}>Синхронізація з базою...</p>
+                ) : (
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead style={{ background: '#f8fafc' }}>
+                            <tr>
+                                <th style={{ padding: '15px', textAlign: 'left', borderBottom: '2px solid #e2e8f0' }}>Група</th>
+                                <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Онлайн</th>
+                                <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Офлайн</th>
+                                <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Всього</th>
+                                <th style={{ padding: '15px', borderBottom: '2px solid #e2e8f0' }}>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {ALL_GROUPS
+                                .filter(g => {
+                                    const matchesSearch = g.toLowerCase().includes(searchTerm.toLowerCase());
+                                    const matchesCourse = selectedCourse ? g.includes(` ${selectedCourse}/`) : true;
+                                    return matchesSearch && matchesCourse;
+                                })
+                                .map(group => {
+                                    const r = reports.find(rep => rep.group_name === group);
+                                    if (showOnlyMissing && r) return null;
 
-                                return (
-                                    <tr key={group} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                                        <td style={{ padding: '15px' }}><strong>{group}</strong></td>
-                                        {r ? (
-                                            <>
-                                                <td style={{ textAlign: 'center' }}>{r.online}</td>
-                                                <td style={{ textAlign: 'center' }}>{r.offline}</td>
-                                                <td style={{ textAlign: 'center', fontWeight: 'bold', color: '#007bff' }}>{r.total}</td>
-                                                <td style={{ textAlign: 'center', fontSize: '12px', color: '#94a3b8' }}>{r.fullTime.split(', ')[1]}</td>
-                                                <td style={{ textAlign: 'center' }}>
-                                                    <button onClick={() => handleEdit(group)} style={{ marginRight: '8px', background: '#f59e0b', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>✎</button>
-                                                    <button onClick={() => handleDelete(group)} style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>✕</button>
-                                                </td>
-                                            </>
-                                        ) : (
-                                            <td colSpan={5} style={{ padding: '15px', color: '#ef4444', fontStyle: 'italic', textAlign: 'center' }}>Не здано</td>
-                                        )}
-                                    </tr>
-                                );
-                            })}
-                    </tbody>
-                </table>
+                                    return (
+                                        <tr key={group} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                            <td style={{ padding: '15px' }}><strong>{group}</strong></td>
+                                            {r ? (
+                                                <>
+                                                    <td style={{ textAlign: 'center' }}>{r.online}</td>
+                                                    <td style={{ textAlign: 'center' }}>{r.offline}</td>
+                                                    <td style={{ textAlign: 'center', fontWeight: 'bold', color: '#007bff' }}>{r.total}</td>
+                                                    <td style={{ textAlign: 'center' }}>
+                                                        <button onClick={() => handleEdit(r)} style={{ marginRight: '8px', background: '#f59e0b', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>✎</button>
+                                                        <button onClick={() => handleDelete(r.id, group)} style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>✕</button>
+                                                    </td>
+                                                </>
+                                            ) : (
+                                                <td colSpan={4} style={{ padding: '15px', color: '#ef4444', textAlign: 'center', fontStyle: 'italic' }}>Не здано</td>
+                                            )}
+                                        </tr>
+                                    );
+                                })}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </div>
     );

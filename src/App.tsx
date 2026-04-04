@@ -10,8 +10,13 @@ import { AttendancePage } from './pages/AttendancePage';
 // Компонент для захисту роутів
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles: string[] }) => {
   const { user } = useAuth();
-  if (!user) return <Navigate to="/login" />;
-  if (!allowedRoles.includes(user.role!)) return <Navigate to="/" />;
+
+  // Якщо юзера немає — на логін. 
+  // ВАЖЛИВО: "/" тут працює коректно завдяки basename в BrowserRouter
+  if (!user) return <Navigate to="/login" replace />;
+
+  if (!allowedRoles.includes(user.role!)) return <Navigate to="/" replace />;
+
   return <>{children}</>;
 };
 
@@ -32,7 +37,6 @@ function App() {
           <Route path="/attendance" element={
             <ProtectedRoute allowedRoles={['monitor']}>
               <div style={{ padding: '20px' }}>
-                <h1>Сторінка старости</h1>
                 <AttendancePage />
               </div>
             </ProtectedRoute>
@@ -41,11 +45,13 @@ function App() {
           <Route path="/dean-reports" element={
             <ProtectedRoute allowedRoles={['dean']}>
               <div style={{ padding: '20px' }}>
-                <h1>Сторінка деканату</h1>
                 <DeanPage />
               </div>
             </ProtectedRoute>
           } />
+
+          {/* Редірект на головну, якщо шлях не знайдено */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
