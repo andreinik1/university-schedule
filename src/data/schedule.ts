@@ -1,7 +1,7 @@
 import type { GroupsData } from '../types/schedule';
 
 export const GROUPS_DATA: GroupsData = {
-  "Готельно-ресторанна справа": {
+  "Готельно-ресторанна справа 1/1": {
     monday: [
       { numerator: { name: "Етика ділового спілкування", teacher: "доц. Тищенко С.І.", room: "м 207" }, denominator: { name: "Етика ділового спілкування", teacher: "доц. Тищенко С.І.", room: "м 207" } },
       { numerator: { name: "Етика ділового спілкування", teacher: "доц. Тищенко С.І.", room: "м 103" }, denominator: { name: "Вища математика", teacher: "доц. Бойчук О.В.", room: "м 103" } },
@@ -34,7 +34,7 @@ export const GROUPS_DATA: GroupsData = {
       null, null
     ]
   },
-  "Туризм і рекреація": {
+  "Туризм і рекреація 1/1": {
     monday: [
       { numerator: { name: "Етика ділового спілкування", teacher: "доц. Тищенко С.І.", room: "м 207" }, denominator: { name: "Етика ділового спілкування", teacher: "доц. Тищенко С.І.", room: "м 207" } },
       { numerator: { name: "Етика ділового спілкування", teacher: "доц. Тищенко С.І.", room: "м 103" }, denominator: { name: "Вища математика", teacher: "доц. Бойчук О.В.", room: "м 103" } },
@@ -67,7 +67,7 @@ export const GROUPS_DATA: GroupsData = {
       null, null
     ]
   },
-  "Комп'ютерні науки": {
+  "Комп'ютерні науки 1/1": {
     monday: [
       { numerator: { name: "Фізика", teacher: "доц. Вахоніна Л.В.", room: "кр 208" }, denominator: { name: "Фізика", teacher: "доц. Вахоніна Л.В.", room: "кр 208" } },
       { numerator: { name: "Фізика", teacher: "доц. Вахоніна Л.В.", room: "кр 209" }, denominator: { name: "Фізика", teacher: "доц. Вахоніна Л.В.", room: "кр 209" } },
@@ -198,7 +198,7 @@ export const GROUPS_DATA: GroupsData = {
        null, null, null
     ]
   },
-  "Публічне управління": {
+  "Публічне управління та адміністрування 1/1": {
     monday: [
       { numerator: { name: "Вища математика", teacher: "доц. Бойчук О.В.", room: "м 303" }, denominator: { name: "Вища математика", teacher: "доц. Бойчук О.В.", room: "м 303" } },
       { numerator: { name: "Вища математика", teacher: "ст.в. Поживатенко В.В.", room: "м 208" }, denominator: { name: "Вища математика", teacher: "ст.в. Поживатенко В.В.", room: "м 208" } },
@@ -465,7 +465,7 @@ export const GROUPS_DATA: GroupsData = {
       null, null
     ]
   },
-  "Публічне управління 2/1": {
+  "Публічне управління та адміністрування 2/1": {
     "monday": [
       { "numerator": null, "denominator": { "name": "Публ.-правові відносини у СГД", "teacher": "ст.в. Гусенко А.А.", "room": "м 306" } },
       null,
