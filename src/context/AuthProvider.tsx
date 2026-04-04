@@ -1,68 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthContext, type Role, type User } from './AuthContext';
+import { supabase } from '../api/supabaseClient';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(() => {
-        const saved = localStorage.getItem('user');
-        return saved ? JSON.parse(saved) : null;
-    });
+    const [user, setUser] = useState<User | null>(null);
+    // 1. Оголошуємо стан завантаження
+    const [loading, setLoading] = useState(true);
 
-    const login = (username: string, password: string): boolean => {
-        // База даних користувачів
-        const USERS_DB = [
-            { user: 'dean_office', pass: 'dean321', role: 'dean' as Role, group: 'Деканат' },
-            // 1 Курс
-            { user: 'grs11', pass: 'pass123', role: 'monitor' as Role, group: 'ГРС 1/1' },
-            { user: 'tur11', pass: 'pass123', role: 'monitor' as Role, group: 'ТУР 1/1' },
-            { user: 'kn11', pass: 'pass123', role: 'monitor' as Role, group: 'КН 1/1' },
-            { user: 'men11', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 1/1' },
-            { user: 'men12', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 1/2' },
-            { user: 'men13', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 1/3' },
-            { user: 'pua11', pass: 'pass123', role: 'monitor' as Role, group: 'ПУА 1/1' },
-            // 2 Курс
-            { user: 'grs21', pass: 'pass123', role: 'monitor' as Role, group: 'ГРС 2/1' },
-            { user: 'tur21', pass: 'pass123', role: 'monitor' as Role, group: 'ТУР 2/1' },
-            { user: 'kn21', pass: 'pass123', role: 'monitor' as Role, group: 'КН 2/1' },
-            { user: 'kn22', pass: 'pass123', role: 'monitor' as Role, group: 'КН 2/2' },
-            { user: 'men21', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 2/1' },
-            { user: 'men22', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 2/2' },
-            { user: 'men23', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 2/3' },
-            { user: 'pua21', pass: 'pass123', role: 'monitor' as Role, group: 'ПУА 2/1' },
-            // 3 Курс
-            { user: 'grs31', pass: 'pass123', role: 'monitor' as Role, group: 'ГРС 3/1' },
-            { user: 'tur31', pass: 'pass123', role: 'monitor' as Role, group: 'ТУР 3/1' },
-            { user: 'kn31', pass: 'pass123', role: 'monitor' as Role, group: 'КН 3/1' },
-            { user: 'men31', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 3/1' },
-            { user: 'men32', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 3/2' },
-            { user: 'pua31', pass: 'pass123', role: 'monitor' as Role, group: 'ПУА 3/1' },
-            // 4 Курс
-            { user: 'grs41', pass: 'pass123', role: 'monitor' as Role, group: 'ГРС 4/1' },
-            { user: 'tur41', pass: 'pass123', role: 'monitor' as Role, group: 'ТУР 4/1' },
-            { user: 'kn41', pass: 'pass123', role: 'monitor' as Role, group: 'КН 4/1' },
-            { user: 'men41', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 4/1' },
-            { user: 'men42', pass: 'pass123', role: 'monitor' as Role, group: 'МЕН 4/2' },
-            { user: 'pua41', pass: 'pass123', role: 'monitor' as Role, group: 'ПУА 4/1' },
-        ];
+    // 2. Використовуємо useEffect для ініціалізації при першому запуску
+    useEffect(() => {
+        const initAuth = () => {
+            const saved = localStorage.getItem('user');
+            if (saved) {
+                try {
+                    setUser(JSON.parse(saved));
+                } catch (e) {
+                    console.error("Failed to parse user from localStorage", e);
+                    localStorage.removeItem('user');
+                }
+            }
+            // Кажемо системі, що ми завершили перевірку localStorage
+            setLoading(false);
+        };
 
-        const found = USERS_DB.find(u => u.user === username && u.pass === password);
+        initAuth();
+    }, []);
 
-        if (found) {
-            // Формуємо красиве ім'я: "КН 1/1 (староста)" або "Деканат"
-            const displayName = found.role === 'dean'
-                ? found.group
-                : `${found.group} (староста)`;
+    const login = async (username: string, password: string): Promise<boolean> => {
+        try {
+            // Шукаємо користувача в Supabase
+            const { data, error } = await supabase
+                .from('users')
+                .select('*')
+                .eq('login_name', username)
+                .eq('password', password)
+                .single();
+
+            if (error || !data) {
+                console.log("Login failed:", error?.message);
+                return false;
+            }
+
+            // Формуємо об'єкт користувача
+            const displayName = data.role === 'dean'
+                ? data.group_name
+                : `${data.group_name} (староста)`;
 
             const newUser: User = {
-                role: found.role,
+                role: data.role as Role,
                 username: displayName,
-                group: found.group
+                group: data.group_name
             };
 
             setUser(newUser);
             localStorage.setItem('user', JSON.stringify(newUser));
             return true;
+        } catch (err) {
+            console.error("Auth error:", err);
+            return false;
         }
-        return false;
     };
 
     const loginAsGuest = () => {
@@ -77,7 +73,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, loginAsGuest, logout }}>
+        // 3. Передаємо всі значення, включаючи loading
+        <AuthContext.Provider value={{ user, loading, login, loginAsGuest, logout }}>
             {children}
         </AuthContext.Provider>
     );

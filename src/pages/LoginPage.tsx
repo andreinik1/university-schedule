@@ -5,25 +5,32 @@ import { useNavigate } from 'react-router-dom';
 export const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { login, loginAsGuest } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
 
-        // Перевіряємо логін
-        const isSuccess = login(username, password);
+        try {
+            const isSuccess = await login(username, password);
 
-        if (isSuccess) {
-            // Якщо це декан — шлемо на звіти, якщо ні — на головну
-            // Використовуємо replace: true, щоб "затерти" сторінку логіну в історії
-            if (username === 'dean') {
-                navigate('/dean-reports', { replace: true });
+            if (isSuccess) {
+                // Важливо: використовуємо "/path", React Router сам додасть basename
+                if (username === 'dean_office') {
+                    navigate('/dean-reports', { replace: true });
+                } else {
+                    navigate('/', { replace: true });
+                }
             } else {
-                navigate('/', { replace: true });
+                alert('Невірний логін або пароль');
             }
-        } else {
-            alert('Невірний логін або пароль');
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Сталася помилка при вході");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -38,6 +45,7 @@ export const LoginPage = () => {
             <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <input
                     placeholder="Логін"
+                    disabled={isLoading}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     style={{ padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
@@ -45,12 +53,25 @@ export const LoginPage = () => {
                 <input
                     type="password"
                     placeholder="Пароль"
+                    disabled={isLoading}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     style={{ padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
                 />
-                <button type="submit" style={{ padding: '12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
-                    Увійти
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    style={{
+                        padding: '12px',
+                        background: isLoading ? '#ccc' : '#007bff',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: isLoading ? 'not-allowed' : 'pointer',
+                        fontWeight: 'bold'
+                    }}
+                >
+                    {isLoading ? 'Перевірка...' : 'Увійти'}
                 </button>
             </form>
 

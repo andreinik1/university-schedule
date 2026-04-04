@@ -31,7 +31,7 @@ export const Navbar = () => {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '14px', color: '#666' }}>{user.username} ({user.role})</span>
+                <span style={{ fontSize: '14px', color: '#666' }}>{user.username}</span>
                 <button
                     onClick={() => { logout(); navigate('/login'); }}
                     style={{
