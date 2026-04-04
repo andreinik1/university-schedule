@@ -26,8 +26,7 @@ export const DeanPage = () => {
         return new Date().toISOString().split('T')[0];
     });
 
-    const activeDateStr = new Date(filterDate).toLocaleDateString('uk-UA');
-
+    const activeDateStr = filterDate;
     const fetchReports = async () => {
         setIsLoading(true);
         try {
@@ -56,7 +55,7 @@ export const DeanPage = () => {
                     .from('attendance_reports')
                     .delete()
                     .eq('id', id);
-                
+
                 if (error) throw error;
                 await fetchReports();
             } catch (err) {
@@ -83,7 +82,7 @@ export const DeanPage = () => {
     const handleAddNew = async (groupName: string) => {
         const newOnline = prompt(`Додати звіт для ${groupName}. Кількість ОНЛАЙН:`, "0");
         const newOffline = prompt(`Кількість ОФЛАЙН:`, "0");
-        
+
         if (newOnline !== null && newOffline !== null) {
             const on = parseInt(newOnline) || 0;
             const off = parseInt(newOffline) || 0;
@@ -97,7 +96,7 @@ export const DeanPage = () => {
                     date_only: activeDateStr,
                     submitted_by: 'Деканат'
                 }]);
-            
+
             if (!error) fetchReports();
             else console.error(error);
         }
@@ -229,7 +228,7 @@ export const DeanPage = () => {
                                                 <>
                                                     <td colSpan={3} style={{ padding: '15px', color: '#ef4444', textAlign: 'center', fontStyle: 'italic' }}>Не здано</td>
                                                     <td style={{ textAlign: 'center', padding: '15px' }}>
-                                                        <button onClick={() => handleAddNew(group)} style={{ background: '#007bff', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer'}}>+</button>
+                                                        <button onClick={() => handleAddNew(group)} style={{ background: '#007bff', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer' }}>+</button>
                                                     </td>
                                                 </>
                                             )}

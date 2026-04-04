@@ -499,6 +499,39 @@ export const GROUPS_DATA: GroupsData = {
       null
     ]
   },
+  "Економіка 2/1": {
+    "monday": [
+      { "numerator": { "name": "Національна економіка", "teacher": "доц. Горобченко О.А.", "room": "м 206" } , "denominator": { "name": "Національна економіка", "teacher": "доц. Горобченко О. А.", "room": "м 206" } },
+      { "numerator": { "name": "Національна економіка", "teacher": "доц. Горобченко О.А.", "room": "м 206" } , "denominator": { "name": "Національна економіка", "teacher": "доц. Горобченко О. А.", "room": "м 206" } },
+      { "numerator": { "name": "Теорет. підготовка БЗВП", "teacher": "ст.в. Болотських С.В.", "room": "кр 004" }, "denominator": { "name": "Теорет. підготовка БЗВП", "teacher": "ст.в. Болотських С.В.", "room": "кр 004" } },
+      null, null
+    ],
+    "tuesday": [
+      { "numerator": { "name": "Теоретична підготовка БЗВП", "teacher": "ст.в. Болотських С.В.", "room": "м 303" }, "denominator": { "name": "Теоретична підготовка БЗВП", "teacher": "ст.в. Болотських С.В.", "room": "м 303" } },
+      { "numerator": { "name": "Фізичне виховання", "teacher": "виховання", "room": "гк зал" }, "denominator": { "name": "Фізичне виховання", "teacher": "виховання", "room": "гк зал" }},
+      { "numerator": { "name": "Правове регулювання ГВ", "teacher": "ст.в. Гусенко А.А.", "room": "м 212" }, "denominator": { "name": "Правове регулювання ГВ", "teacher": "ст.в. Гусенко А.А.", "room": "м 212" }},
+      { "numerator": { "name": "Макро та мікроекономіка", "teacher": "ас. Білінченко О. С.", "room": "гк 101" }, "denominator": { "name": "Макро та мікроекономіка", "teacher": "ас. Білінченко О. С.", "room": "гк 101" } },
+      { "numerator": { "name": "Економетрія", "teacher": "доц. Тищенко С.І.", "room": "м 209" }, "denominator": { "name": "Економетрія", "teacher": "доц. Тищенко С.І.", "room": "м 209" } }
+    ],
+    "wednesday": [
+      null,
+      { "numerator": { "name": "Іноземна мова", "teacher": "доц. Ганніченко Т.А.", "room": "м 216" }, "denominator": { "name": "Іноземна мова", "teacher": "доц. Ганніченко Т.А.", "room": "м 216" }},
+      { "numerator": { "name": "Правове регулювання ГВ", "teacher": "доц. Прогонюк Л.Ю.", "room": "м 303" }, "denominator": { "name": "Правове регулювання ГВ", "teacher": "доц. Прогонюк Л.Ю.", "room": "м 303" } },
+      { "numerator": { "name": "Макро та мікроекономіка", "teacher": "ас. Машкіна Л.В.", "room": "м 212" }, "denominator": { "name": "Макро та мікроекономіка", "teacher": "ас. Машкіна Л.В.", "room": "м 212" } },
+      { "numerator": { "name": "Економетрія", "teacher": "доц. Тищенко С.І.", "room": "м 104" }, "denominator": { "name": "Економетрія", "teacher": "доц. Тищенко С.І.", "room": "м 104" } },
+      null
+    ],
+    "thursday": [
+      null,
+      { "numerator": { "name": "Статистика", "teacher": "доц. Христенко О.А.", "room": "м 303" }, "denominator": { "name": "Статистика", "teacher": "доц. Христенко О.А.", "room": "м 303" } },
+      { "numerator": { "name": "Статистика", "teacher": "доц. Христенко О.А.", "room": "м 108" }, "denominator": { "name": "Статистика", "teacher": "доц. Христенко О.А.", "room": "м 108" } },
+      null, null
+    ],
+    "friday": [
+      { "numerator": { "name": "БЖД та ООП у ПС", "teacher": "Вакансия", "room": "м 303" }, "denominator":  { "name": "БЖД та ООП у ПС", "teacher": "Вакансия", "room": "м 208" } },
+      null
+    ]
+  },
   "Готельно-ресторанна справа 3/1": {
     "monday": [
       { "numerator": null, "denominator": { "name": "Барна справа", "teacher": "доц. Трибрат Р.О.", "room": "карп 107" } },
@@ -695,6 +728,39 @@ export const GROUPS_DATA: GroupsData = {
       null, null
     ]
   },
+      "Економіка 3/1": {
+    "monday": [
+        null,
+      { "numerator": { "name": "ЗЕД підприємства", "teacher": "ст.в. Галунець Н.І.", "room": "м 301" }, "denominator": { "name": "ЗЕД підприємства", "teacher": "ст.в. Галунець Н.І.", "room": "м 301" } },
+      { "numerator": { "name": "Регіональна економіка", "teacher": "до. Горобченко О.А.", "room": "м 208" }, "denominator": { "name": "Регіональна економіка", "teacher": "до. Горобченко О.А.", "room": "м 208" } },
+      { "numerator": { "name": "Гроші та кредит", "teacher": "доц. Бурковська А.В.", "room": "гк 310" }, "denominator":  { "name": "Гроші та кредит", "teacher": "доц. Бурковська А.В.", "room": "гк 310" } },
+      null
+    ],
+    "tuesday": [
+      { "numerator": { "name": "Міжнародна економіка", "teacher": "доц. Шишпанова Н.О.", "room": "м 213" }, "denominator": { "name": "Міжнародна економіка", "teacher": "доц. Шишпанова Н.О.", "room": "м 213" } },
+      { "numerator": { "name": "Іноземна мова", "teacher": "доц. Ганніченко Т.А.", "room": "м 203" }, "denominator": { "name": "Іноземна мова", "teacher": "доц. Ганніченко Т.А.", "room": "м 203" } },
+      { "numerator": null, "denominator":  { "name": "Гроші та кредит", "teacher": "доц. Бурковська А.В.", "room": "гк 310" } },
+      null
+    ],
+    "wednesday": [
+      { "numerator": { "name": "Маркетинг", "teacher": "доц. Стамат В.М.", "room": "м 206" }, "denominator": { "name": "Маркетинг", "teacher": "доц. Стамат В.М.", "room": "м 206" } },
+      { "numerator": { "name": "ЗЕД підприємства", "teacher": "проф. Ключник А.В.", "room": "м 208" }, "denominator": { "name": "ЗЕД підприємства", "teacher": "проф. Ключник А.В.", "room": "м 208" } },
+      { "numerator": { "name": "Міжнародна економіка", "teacher": "проф. Гончаренко І.В.", "room": "м 302" }, "denominator": { "name": "Міжнародна економіка", "teacher": "проф. Гончаренко І.В.", "room": "м 302" } },
+      null
+    ],
+    "thursday": [
+      { "numerator": { "name": "Регіональна економіка", "teacher": "доц. Горобченко О.А.", "room": "м 107" }, "denominator": { "name": "Регіональна економіка", "teacher": "доц. Горобченко О.А.", "room": "м 107" } },
+      { "numerator": { "name": "Маркетинг", "teacher": "доц. Стамат В.М.", "room": "м 206" }, "denominator": { "name": "Маркетинг", "teacher": "доц. Стамат В.М.", "room": "м 206" } },
+      { "numerator": { "name": "Економічний аналіз", "teacher": "доц. Горобченко О.А.", "room": "м 107" }, "denominator": { "name": "Економічний аналіз", "teacher": "доц. Горобченко О.А.", "room": "м 107" } },
+      { "numerator": { "name": "Економічний аналіз", "teacher": "доц. Горобченко О.А.", "room": "м 107" }, "denominator": { "name": "Економічний аналіз", "teacher": "доц. Горобченко О.А.", "room": "м 107" } },
+      null
+    ],
+    "friday": [
+            { "numerator": { "name": "Основи інвестування", "teacher": "ас. Поточилова І.С.", "room": "м 107" }, "denominator": { "name": "Основи інвестування", "teacher": "ас. Поточилова І.С.", "room": "м 107" } },
+            { "numerator": { "name": "Основи інвестування", "teacher": "ас. Поточилова І.С.", "room": "м 107" }, "denominator": { "name": "Основи інвестування", "teacher": "ас. Поточилова І.С.", "room": "м 107" } },
+
+    ]
+  },
   "Готельно-ресторанна справа 4/1": {
     "monday": [
       { "numerator": { "name": "Гастрономічний туризм", "teacher": "проф. Гарбар Г.А.", "room": "м 101" }, "denominator": { "name": "Гастрономічний туризм", "teacher": "проф. Гарбар Г.А.", "room": "м 101" } },
@@ -884,6 +950,37 @@ export const GROUPS_DATA: GroupsData = {
     ],
     "friday": [
       null
+    ]
+  },
+  "Економіка 4/1": {
+    "monday": [
+      { "numerator": { "name": "Державне регулювання ЗЕД", "teacher": "ст.в. Галунець Н.І.", "room": "м 208" }, "denominator": { "name": "Державне регулювання ЗЕД", "teacher": "ст.в. Галунець Н.І.", "room": "м 208" } },
+      null, 
+      { "numerator": { "name": "Організація виробництва та ПДП", "teacher": "проф. Червен І.І.", "room": "м 210" }, "denominator": { "name": "Організація виробництва та ПДП", "teacher": "проф. Червен І.І.", "room": "м 210" } },
+      { "numerator": { "name": "Стратегічний менеджмент", "teacher": "доц. Сухорукова Л.Л.", "room": "м 213" }, "denominator": { "name": "Стратегічний менеджмент", "teacher": "доц. Сухорукова Л.Л.", "room": "м 213" } },
+      { "numerator": { "name": "Стратегічний менеджмент", "teacher": "доц. Сухорукова Л.Л.", "room": "м 213" }, "denominator": { "name": "Стратегічний менеджмент", "teacher": "доц. Сухорукова Л.Л.", "room": "м 213" } }
+    ],
+    "tuesday": [
+      null,
+      { "numerator": { "name": "Фінансово-економічна безпека", "teacher": "проф. Полторак А.С.", "room": "м 220" }, "denominator": { "name": "Фінансово-економічна безпека", "teacher": "проф. Полторак А.С.", "room": "м 220" } },
+      { "numerator": { "name": "Фінансово-економічна безпека", "teacher": "проф. Полторак А.С.", "room": "м 220" }, "denominator": { "name": "Фінансово-економічна безпека", "teacher": "проф. Полторак А.С.", "room": "м 220" } },
+      { "numerator": { "name": "Організація виробництва та ПДП", "teacher": "проф. Червен І.І.", "room": "м 101" }, "denominator": { "name": "Організація виробництва та ПДП", "teacher": "проф. Червен І.І.", "room": "м 101" } },
+    ],
+    "wednesday": [
+      { "numerator": { "name": "Державне регулювання ЗЕД", "teacher": "ст.в. Галунець Н.І.", "room": "м 216" }, "denominator": { "name": "Державне регулювання ЗЕД", "teacher": "ст.в. Галунець Н.І.", "room": "м 216" } },
+      null,
+      { "numerator": { "name": "Іноземна мова", "teacher": "доц. Ганніченко Т.А.", "room": "м 216" }, "denominator": { "name": "Іноземна мова", "teacher": "доц. Ганніченко Т.А.", "room": "м 216" } },
+      { "numerator": { "name": "Електронна комерція", "teacher": "доц. Кучмійова Т.С.", "room": "м 203" }, "denominator": { "name": "Електронна комерція", "teacher": "доц. Кучмійова Т.С.", "room": "м 203" } },
+      null, 
+    ],
+    "thursday": [
+      { "numerator": { "name": "Держ. регулювв. економ.", "teacher": "ас Поточилова І.С.", "room": "м 220" }, "denominator": { "name": "Держ. регулювв. економ.", "teacher": "ас Поточилова І.С.", "room": "м 220" } },
+      { "numerator": { "name": "Держ. регулювв. економ.", "teacher": "ас Поточилова І.С.", "room": "м 220" }, "denominator": { "name": "Держ. регулювв. економ.", "teacher": "ас Поточилова І.С.", "room": "м 220" } },
+    ],
+    "friday": [
+        { "numerator": { "name": "СОЕІ", "teacher": "ас. Богатєнкова О.Є.", "room": "м 105" }, "denominator": { "name": "СОЕІ", "teacher": "ас. Богатєнкова О.Є.", "room": "м 105" } },
+        { "numerator": { "name": "СОЕІ", "teacher": "ас. Богатєнкова О.Є.", "room": "м 208" }, "denominator": { "name": "СОЕІ", "teacher": "ас. Богатєнкова О.Є.", "room": "м 208" } },
+        { "numerator": { "name": "Електронна комерція", "teacher": "доц. Кучмійова Т.С.", "room": "м 104" }, "denominator": { "name": "Електронна комерція", "teacher": "доц. Кучмійова Т.С.", "room": "м 104" } },
     ]
   }
 };
