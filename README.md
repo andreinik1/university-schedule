@@ -1,73 +1,17 @@
-# React + TypeScript + Vite
+# 🎓 Attendance System (Cloud DB)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Система автоматизації обліку відвідуваності студентів, побудована на стеку **React + TypeScript + Supabase** з розділенням ролей для старост та деканату. Додаток дозволяє швидко та зручно збирати, обробляти та аналізувати дані про відвідуваність у режимі реального часу.
 
-Currently, two official plugins are available:
+Для старост (Monitor Mode) реалізовано миттєву подачу звітів про кількість студентів онлайн/офлайн (приблизно за 10 секунд), можливість редагування вже відправлених даних за поточний день (через механізм `upsert`), а також валідацію введення з обмеженням у межах 0–35 студентів.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Для деканату (Dean Mode) доступний глобальний моніторинг усіх груп у реальному часі, розширена система фільтрації та пошуку (за курсами, конкретними групами та режимом "тільки боржники"), можливість ручного керування звітами (додавання, редагування, видалення), а також експорт даних у формати **Excel (.xlsx)** та **PDF**.
 
-## React Compiler
+Інтерфейс повністю адаптивний, реалізований за принципом Mobile-First, із підтримкою горизонтального скролу таблиць для зручної роботи на мобільних пристроях.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Технологічний стек включає **React 18 + TypeScript** для фронтенду, **Vite** як збірник, та **Supabase (PostgreSQL + Row Level Security)** для бази даних, авторизації та роботи з API. Для експорту даних використовуються бібліотеки `xlsx`, `jspdf` та `jspdf-autotable`.
 
-## Expanding the ESLint configuration
+Для запуску проєкту потрібно клонувати репозиторій:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```bash
+git clone https://github.com/your-username/attendance-app.git
+cd attendance-app
