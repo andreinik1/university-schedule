@@ -104,12 +104,21 @@ export const NewsPage = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const handleDelete = async (id: string) => {
-        if (window.confirm("Видалити цю новину?")) {
-            const { error } = await supabase.from('news_posts').delete().eq('id', id);
-            if (error) alert("Помилка видалення");
-        }
-    };
+const handleDelete = async (id: string) => {
+    console.log("Намагаюсь видалити пост з ID:", id); // ПЕРЕВІР ЦЕ В КОНСОЛІ
+    if (!window.confirm("Видалити цю новину?")) return;
+    
+    const { error } = await supabase
+        .from('news_posts')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        alert("Помилка БД: " + error.message);
+    } else {
+        alert("Видалено успішно!");
+    }
+};
 
     const getRoleName = (role: string) => {
         if (role === 'admin') return 'АДМІН';
