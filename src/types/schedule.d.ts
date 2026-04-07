@@ -11,3 +11,12 @@ export type LessonSlot = {
 
 export type DaySchedule = LessonSlot[];
 export type GroupsData = Record<string, Record<string, DaySchedule>>;
+
+export interface IScheduleItem {
+  id: number;
+  day_of_week: string;
+  lesson_number: number;
+  group_name: string;
+  numerator: ILesson | null;
+  denominator: ILesson | null;
+}

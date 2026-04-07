@@ -4,10 +4,8 @@ import { supabase } from '../api/supabaseClient';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    // 1. Оголошуємо стан завантаження
     const [loading, setLoading] = useState(true);
 
-    // 2. Використовуємо useEffect для ініціалізації при першому запуску
     useEffect(() => {
         const initAuth = () => {
             const saved = localStorage.getItem('user');
@@ -19,16 +17,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     localStorage.removeItem('user');
                 }
             }
-            // Кажемо системі, що ми завершили перевірку localStorage
             setLoading(false);
         };
-
         initAuth();
     }, []);
 
     const login = async (username: string, password: string): Promise<boolean> => {
         try {
-            // Шукаємо користувача в Supabase
             const { data, error } = await supabase
                 .from('users')
                 .select('*')
@@ -41,10 +36,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 return false;
             }
 
-            // Формуємо об'єкт користувача
-            const displayName = data.role === 'dean'
-                ? data.group_name
-                : `${data.group_name} (староста)`;
+            let displayName = data.group_name;
+            if (data.role === 'monitor') displayName = `${data.group_name} (староста)`;
+            if (data.role === 'admin') displayName = `Адміністратор`;
+            if (data.role === 'scientific_dept') displayName = `Навчальний відділ`;
 
             const newUser: User = {
                 role: data.role as Role,
@@ -73,7 +68,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        // 3. Передаємо всі значення, включаючи loading
         <AuthContext.Provider value={{ user, loading, login, loginAsGuest, logout }}>
             {children}
         </AuthContext.Provider>

@@ -10,22 +10,15 @@ export const ScheduleCard: React.FC<{ name: string; teacher: string; room?: stri
 }) => {
     return (
         <div className={`${styles.scheduleCard} ${isActive ? styles.activeCard : ''}`}>
-            {/* Полосочка: додаємо клас active, якщо пара йде зараз */}
             <div className={`${styles.statusBar} ${isActive ? styles.activeStatus : ''}`}></div>
-
             <div className={styles.cardContent}>
                 <div className={styles.cardHeader}>
                     <h3>{name}</h3>
                     <p className={styles.timeTag}>{time}</p>
                 </div>
-
                 <div className={styles.cardDetails}>
-                    <p>
-                        <span>👤</span> {teacher || "Викладач не вказаний"}
-                    </p>
-                    <p>
-                        <span>🚪</span> {room || "Не вказано"}
-                    </p>
+                    <p><span>👤</span> {teacher || "Викладач не вказаний"}</p>
+                    <p><span>🚪</span> {room || "Не вказано"}</p>
                 </div>
             </div>
         </div>

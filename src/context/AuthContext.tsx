@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export type Role = 'guest' | 'monitor' | 'dean' | null;
+export type Role = 'guest' | 'monitor' | 'dean' | 'admin' | 'scientific_dept' | null;
 
 export interface User {
     role: Role;
