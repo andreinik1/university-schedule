@@ -44,7 +44,7 @@
 ## ⚙️ Getting Started
 
 ```bash
-git clone https://github.com/your-username/attendance-app.git
+git clone https://github.com/andreinik1/university-schedule.git
 cd attendance-app
 npm install
 
