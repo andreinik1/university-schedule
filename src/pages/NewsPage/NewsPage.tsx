@@ -43,7 +43,12 @@ export const NewsPage = () => {
                 { event: '*', schema: 'public', table: 'news_posts' },
                 (payload) => {
                     if (payload.eventType === 'INSERT') {
-                        setNews((prev) => [payload.new as INews, ...prev]);
+                        setNews((prev) => {
+                            if (prev.some((item) => item.id === payload.new.id)) {
+                                return prev;
+                            }
+                            return [payload.new as INews, ...prev];
+                        });
                     } else if (payload.eventType === 'DELETE') {
                         setNews((prev) => prev.filter((item) => item.id !== payload.old.id));
                     } else if (payload.eventType === 'UPDATE') {
