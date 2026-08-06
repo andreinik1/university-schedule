@@ -61,9 +61,9 @@ To explore all administrative features, analytical tools, and schedule editors, 
    ```
 
 2. **Install dependencies**
-  ```bash
-  npm install
-  ```
+    ```bash
+    npm install
+    ```
 
 3. **Configure Environment Variables**
     Create a .env.local file in the root directory:
@@ -76,3 +76,6 @@ To explore all administrative features, analytical tools, and schedule editors, 
     ```bash
     npm run dev
     ```
+
+## License
+This project is licensed under the MIT License.
