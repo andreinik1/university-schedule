@@ -1,4 +1,4 @@
-# 🎓 MNAU Attendance Control — University Management & Attendance Platform
+# 🎓 MNAU Attendance Control - University Management & Attendance Platform
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -26,11 +26,11 @@ To explore all administrative features, analytical tools, and schedule editors, 
 
 ## Key Features
 
-* **📅 Schedule Editor & Viewer:** Interactive timetable customization supporting weekly parity (numerator / denominator), custom time slots, and room allocations.
-* **📊 Dean's Office Analytics & Reporting:** Real-time dashboards monitoring attendance percentages, student dynamics, and automatic generation of **PDF & Excel** reports.
-* **🛡️ Role-Based Access Control (RBAC):** Distinct interfaces and capabilities tailored for Admins, Dean staff, and Group Monitors.
-* **⚡ Offline & Mock Data Fallback:** Robust architecture ensuring full UI functionality via local datasets even if database connectivity is unavailable.
-* **📱 Fully Responsive Design:** Clean, accessible user interface optimized across desktop and tablet screen sizes.
+* **Schedule Editor & Viewer:** Interactive timetable customization supporting weekly parity (numerator / denominator), custom time slots, and room allocations.
+* **Dean's Office Analytics & Reporting:** Real-time dashboards monitoring attendance percentages, student dynamics, and automatic generation of **PDF & Excel** reports.
+* **Role-Based Access Control (RBAC):** Distinct interfaces and capabilities tailored for Admins, Dean staff, and Group Monitors.
+* **Offline & Mock Data Fallback:** Robust architecture ensuring full UI functionality via local datasets even if database connectivity is unavailable.
+* **Fully Responsive Design:** Clean, accessible user interface optimized across desktop and tablet screen sizes.
 
 ---
 
