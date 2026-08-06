@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { supabase } from '../api/supabaseClient';
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../api/supabaseClient';
+import styles from './AttendancePage.module.scss';
 
 export const AttendancePage = () => {
     const { user } = useAuth();
@@ -17,6 +18,7 @@ export const AttendancePage = () => {
         const now = new Date();
         const offset = now.getTimezoneOffset() * 60000;
         const todayDate = new Date(now.getTime() - offset).toISOString().split('T')[0];
+
         if (onNum < 0 || onNum > 35 || offNum < 0 || offNum > 35) {
             setMessage({ text: 'Кількість має бути від 0 до 35', type: 'error' });
             return;
@@ -49,7 +51,6 @@ export const AttendancePage = () => {
             setOffline('');
         } catch (err: unknown) {
             console.error(err);
-            // Виводимо конкретний текст помилки від Supabase
             const errorMessage = err instanceof Error ? err.message : 'Зверніться до адміна';
             setMessage({
                 text: `Помилка: ${errorMessage}`,
@@ -62,14 +63,14 @@ export const AttendancePage = () => {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '450px', margin: '0 auto', fontFamily: 'sans-serif' }}>
-            <div style={{ background: '#fff', padding: '25px', borderRadius: '15px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
-                <h2 style={{ marginBottom: '5px' }}>Відмітка присутніх</h2>
-                <p style={{ color: '#64748b', marginBottom: '20px' }}>Група: <strong>{user?.group}</strong></p>
+        <div className={styles.attendancePage}>
+            <div className={styles.card}>
+                <h2 className={styles.title}>Відмітка присутніх</h2>
+                <p className={styles.groupInfo}>Група: <strong>{user?.group}</strong></p>
 
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    <div>
-                        <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '5px' }}>Кількість Онлайн:</label>
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Кількість Онлайн:</label>
                         <input
                             type="number"
                             required
@@ -77,11 +78,11 @@ export const AttendancePage = () => {
                             value={online}
                             onChange={(e) => setOnline(e.target.value.replace(/\D/g, ''))}
                             placeholder="0-35"
-                            style={{ width: '100%', boxSizing: 'border-box', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                            className={styles.input}
                         />
                     </div>
-                    <div>
-                        <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '5px' }}>Кількість Офлайн:</label>
+                    <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Кількість Офлайн:</label>
                         <input
                             type="number"
                             required
@@ -89,35 +90,20 @@ export const AttendancePage = () => {
                             value={offline}
                             onChange={(e) => setOffline(e.target.value.replace(/\D/g, ''))}
                             placeholder="0-35"
-                            style={{ width: '100%', boxSizing: 'border-box', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                            className={styles.input}
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        style={{
-                            padding: '12px',
-                            background: isSubmitting ? '#94a3b8' : '#007bff',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '8px',
-                            fontWeight: 'bold',
-                            marginTop: '10px',
-                            cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                            transition: 'background 0.2s'
-                        }}
+                        className={styles.submitBtn}
                     >
                         {isSubmitting ? 'Обробка...' : 'Зберегти звіт'}
                     </button>
                 </form>
 
                 {message && (
-                    <div style={{
-                        marginTop: '15px', padding: '12px', borderRadius: '8px', textAlign: 'center', fontSize: '14px',
-                        backgroundColor: message.type === 'success' ? '#dcfce7' : '#fee2e2',
-                        color: message.type === 'success' ? '#166534' : '#991b1b',
-                        border: `1px solid ${message.type === 'success' ? '#bbf7d0' : '#fecaca'}`
-                    }}>
+                    <div className={message.type === 'success' ? styles.messageSuccess : styles.messageError}>
                         {message.text}
                     </div>
                 )}

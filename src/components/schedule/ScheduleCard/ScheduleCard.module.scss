@@ -3,8 +3,7 @@ $gray-status: #bdbdbd;
 $text-main: #333;
 $text-secondary: #666;
 $bg-card: #ffffff;
-$gray-status: #bdbdbd;
-$blue-active: #007bff; // Твій блакитний для поточної пари
+$blue-active: #007bff;
 $bg-active: #f0f7ff;
 
 .scheduleCard {
@@ -21,7 +20,7 @@ $bg-active: #f0f7ff;
   &.activeCard {
     border-color: $blue-active;
     background-color: $bg-active;
-    transform: scale(1.02); // Трохи виділяємо активну пару
+    transform: scale(1.02);
   }
 
   &:hover {

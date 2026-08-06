@@ -1,0 +1,79 @@
+.schedulePage {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.selectGroup {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #e2e8f0;
+  font-size: 16px;
+  outline: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.weekTypeSelector {
+  display: flex;
+  background-color: #f1f5f9;
+  padding: 4px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.weekTypeBtn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: transparent;
+  color: #64748b;
+  transition: all 0.2s;
+
+  &.active {
+    background-color: #fff;
+    color: #0f172a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.daysSelector {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.dayBtn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+  background-color: #fff;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+}
+
+.loadingText {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}

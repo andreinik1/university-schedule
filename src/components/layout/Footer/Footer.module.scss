@@ -1,0 +1,130 @@
+.footer {
+  margin-top: auto;
+  padding: 30px 20px 15px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.logoCol {
+  flex: 1 1 200px;
+  min-width: 150px;
+}
+
+.logoHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.logoContainer {
+  background-color: #16a34a;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+}
+
+.logoImg {
+  height: 30px;
+  width: auto;
+}
+
+.logoTitle {
+  font-weight: bold;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.addressText {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.linkCol {
+  flex: 1 1 150px;
+}
+
+.colTitle {
+  color: #1e293b;
+  font-size: 13px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+
+  li {
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.supportCol {
+  flex: 1 1 150px;
+}
+
+.supportText {
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.bugBtn {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #ef4444;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: #dc2626;
+  }
+}
+
+.copyright {
+  max-width: 1100px;
+  margin: 25px auto 0;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.copyrightText {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 0;
+  
+  span {
+    font-weight: 600;
+  }
+}

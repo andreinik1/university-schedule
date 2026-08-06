@@ -5,29 +5,26 @@ export const ALL_GROUPS = [
   "ГРС 4/1", "ТУР 4/1", "КН 4/1", "МЕН 4/1", "МЕН 4/2", "ЕК 4/1"
 ];
 
-// Мапер для PDF (латиниця)
-// Переконайся, що тут ЕК (кирилична Е)
 export const GROUP_TRANSLIT: Record<string, string> = {
   "ГРС": "GRS",
   "ТУР": "TUR",
   "КН": "KN",
   "МЕН": "MEN",
   "ПУА": "PUA",
-  "ЕК": "EK",   // Кирилична Е
-  "EK": "EK",   // Латинська E (про всяк випадок)
+  "ЕК": "EK",
+  "EK": "EK",
   "Деканат": "Dean Office"
 };
 
 export const translateGroupName = (group: string) => {
   if (!group) return "";
-  
-  // Використовуємо регулярку, щоб розбити по пробілу, ігноруючи їх кількість
-  const parts = group.trim().split(/\s+/);
-  
-  if (parts.length < 2) return group; // Якщо назва без номера
 
-  const name = parts[0]; // Назва (ГРС, ЕК...)
-  const number = parts[1]; // Номер (1/1, 2/1...)
+  const parts = group.trim().split(/\s+/);
+
+  if (parts.length < 2) return group;
+
+  const name = parts[0];
+  const number = parts[1];
 
   return GROUP_TRANSLIT[name] ? `${GROUP_TRANSLIT[name]} ${number}` : group;
 };

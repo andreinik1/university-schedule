@@ -1,0 +1,315 @@
+.deanPage {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #1e293b;
+  }
+}
+
+.btnGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.filtersBox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.dateRangeBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1f5f9;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.inputDate {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.inputSearch {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  outline: none;
+  flex: 1;
+
+  &:focus {
+    border-color: #3b82f6;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.btnBlue {
+  composes: btn;
+  background: #3b82f6;
+  color: #fff;
+}
+
+.btnGreen {
+  composes: btn;
+  background: #10b981;
+  color: #fff;
+}
+
+.btnDark {
+  composes: btn;
+  background: #1e293b;
+  color: #fff;
+}
+
+.btnMissing {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 1px solid #ef4444;
+  background: #fff;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #ef4444;
+    color: #fff;
+  }
+
+  &.active {
+    background: #ef4444;
+    color: #fff;
+  }
+}
+
+.coursesList {
+  display: flex;
+  gap: 10px;
+}
+
+.btnCourse {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f1f5f9;
+  }
+
+  &.active {
+    background: #3b82f6;
+    color: #fff;
+    border-color: #3b82f6;
+  }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.statCard {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.statLabel {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 5px 0;
+}
+
+.statSub {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.chartCard {
+  composes: card;
+  height: 250px;
+  padding: 20px;
+}
+
+.dateBlock {
+  margin-bottom: 40px;
+  page-break-after: always;
+}
+
+.dateHeader {
+  background: #1e293b;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px 12px 0 0;
+  font-weight: bold;
+}
+
+.tableContainer {
+  background: #fff;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  padding: 12px;
+  text-align: left;
+  font-size: 12px;
+  color: #64748b;
+  background: #f8fafc;
+  font-weight: 600;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tr {
+  border-bottom: 1px solid #f1f5f9;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.td {
+  padding: 12px;
+  font-size: 14px;
+  color: #334155;
+}
+
+.tdGroup {
+  composes: td;
+  font-weight: bold;
+}
+
+.tdCenter {
+  composes: td;
+  text-align: center;
+}
+
+.tdTotal {
+  composes: tdCenter;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.missingText {
+  composes: td;
+  color: #ef4444;
+  text-align: center;
+  font-style: italic;
+}
+
+.actionsContainer {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.btnAction {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.btnEdit {
+  composes: btnAction;
+  background: #f59e0b;
+}
+
+.btnDelete {
+  composes: btnAction;
+  background: #ef4444;
+}
+
+.btnAdd {
+  composes: btnAction;
+  background: #3b82f6;
+}
+
+@media print {
+  :global(.no-print) {
+    display: none !important;
+  }
+
+  :global(body) {
+    background: white !important;
+    padding: 0 !important;
+  }
+
+  :global(div) {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}

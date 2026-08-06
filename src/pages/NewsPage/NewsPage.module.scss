@@ -1,0 +1,213 @@
+.newsPage {
+  maxWidth: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  border-bottom: 2px solid #1e293b;
+  padding-bottom: 10px;
+  color: #1e293b;
+  font-size: 28px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.postCard {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 30px;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1e293b;
+  }
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  box-sizing: border-box;
+  font-size: 15px;
+  outline: none;
+
+  &:focus {
+    border-color: #3b82f6;
+  }
+}
+
+.textarea {
+  composes: input;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.btnPost {
+  background: #8b5cf6;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  flex: 1;
+  font-size: 15px;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #7c3aed;
+  }
+
+  &:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+  }
+}
+
+.btnCancel {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: #e2e8f0;
+  }
+}
+
+.newsList {
+  margin-top: 30px;
+}
+
+.noNews {
+  text-align: center;
+  color: #64748b;
+}
+
+.newsItem {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border-left: 6px solid #8b5cf6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.badgeAdmin {
+  composes: badge;
+  background: #ef4444;
+}
+
+.badgeDean {
+  composes: badge;
+  background: #8b5cf6;
+}
+
+.badgeScientific {
+  composes: badge;
+  background: #10b981;
+}
+
+.itemTitle {
+  margin: 8px 0 0 0;
+  font-size: 20px;
+  color: #1e293b;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btnActionLink {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btnEditLink {
+  composes: btnActionLink;
+  color: #3b82f6;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.btnDeleteLink {
+  composes: btnActionLink;
+  color: #ef4444;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.itemContent {
+  color: #475569;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.itemDate {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 15px;
+  text-align: right;
+}
+
+.unauthorized {
+  text-align: center;
+  margin-top: 50px;
+  color: #ef4444;
+  font-weight: bold;
+}

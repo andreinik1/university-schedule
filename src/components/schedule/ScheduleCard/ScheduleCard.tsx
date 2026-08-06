@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../assets/ScheduleCard.module.scss';
+import styles from './ScheduleCard.module.scss';
 
 export const ScheduleCard: React.FC<{ name: string; teacher: string; room?: string; time: string; isActive?: boolean }> = ({
     name,

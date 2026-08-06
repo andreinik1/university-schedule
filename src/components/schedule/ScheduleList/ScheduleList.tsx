@@ -1,8 +1,8 @@
-import { ScheduleCard } from './ScheduleCard';
-import { BELLS1, BELLS2 } from '../../data/bells';
-import { useCurrentLesson } from '../../hooks/useCurrentLesson';
-import styles from '../../assets/ScheduleList.module.scss';
-import type { ILesson, LessonSlot, IScheduleItem } from '../../types/schedule';
+import { ScheduleCard } from '../ScheduleCard/ScheduleCard';
+import { BELLS1, BELLS2 } from '../../../data/bells';
+import { useCurrentLesson } from '../../../hooks/useCurrentLesson';
+import styles from './ScheduleList.module.scss';
+import type { ILesson, LessonSlot, IScheduleItem } from '../../../types/schedule';
 
 const LessonItem = ({ lesson, index, day }: { lesson: ILesson, index: number, day: string }) => {
     const isKR = lesson.room?.toLowerCase().includes('кр');
@@ -28,12 +28,10 @@ export const ScheduleList = ({
     weekType = "numerator"
 }: { data: IScheduleItem[], day: string, weekType: "numerator" | "denominator" }) => {
 
-    // Створюємо порожню сітку на 5 пар для обраного дня
     const daySchedule: LessonSlot[] = Array(5).fill(null);
 
-    // Заповнюємо сітку даними з БД
     data.filter(item => item.day_of_week === day).forEach(item => {
-        const index = item.lesson_number - 1; // 1 пара -> 0 індекс
+        const index = item.lesson_number - 1;
         if (index >= 0 && index < 5) {
             daySchedule[index] = {
                 numerator: item.numerator,
@@ -42,7 +40,6 @@ export const ScheduleList = ({
         }
     });
 
-    // Знаходимо індекс останньої пари
     const lastLessonIndex = daySchedule.reduce((last, slot, index) => {
         const lesson = slot ? slot[weekType] : null;
         return lesson ? index : last;
@@ -59,7 +56,10 @@ export const ScheduleList = ({
                 if (!lesson) {
                     return (
                         <div key={index} className={styles.windowWrapper}>
-                            <div className={styles.windowBadge}>Вікно</div>
+                            <div className={styles.windowBadge}>
+                                <span>🕐</span>
+                                <span>Вікно</span>
+                            </div>
                         </div>
                     );
                 }

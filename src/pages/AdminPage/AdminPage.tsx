@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../api/supabaseClient';
-import type { IUser } from '../types/user';
+import { supabase } from '../../api/supabaseClient';
+import type { IUser } from '../../types/user';
+import styles from './AdminPage.module.scss';
 
 export const AdminPage = () => {
     const [users, setUsers] = useState<IUser[]>([]);
@@ -21,17 +22,15 @@ export const AdminPage = () => {
         setLoading(false);
     };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { fetchUsers(); }, []);
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
-    // Універсальна функція оновлення будь-якого поля
     const handleInputChange = (id: number, field: keyof IUser, value: string) => {
         setUsers(prev => prev.map(u => u.id === id ? { ...u, [field]: value } : u));
     };
 
-    // Збереження змін у базу
     const saveChanges = async (user: IUser) => {
-        // 1. Отримуємо дані поточного адміна з localStorage (або контексту)
         const adminData = JSON.parse(localStorage.getItem('user') || '{}');
 
         if (adminData.role !== 'admin') {
@@ -47,7 +46,7 @@ export const AdminPage = () => {
                 role: user.role
             })
             .eq('id', user.id)
-            .select(); // ОБОВ'ЯЗКОВО для перевірки RLS
+            .select();
 
         if (error) {
             alert(`Помилка: ${error.message}`);
@@ -59,49 +58,49 @@ export const AdminPage = () => {
         }
     };
 
-    if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Завантаження списку...</div>;
+    if (loading) return <div className={styles.adminPage} style={{ textAlign: 'center' }}>Завантаження списку...</div>;
 
     return (
-        <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', fontFamily: 'sans-serif' }}>
-            <h2 style={{ borderBottom: '2px solid #ef4444', paddingBottom: '10px', color: '#1e293b' }}>
+        <div className={styles.adminPage}>
+            <h2 className={styles.title}>
                 Керування аккаунтами
             </h2>
-            <div style={{ overflowX: 'auto', marginTop: '20px' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: '#fff' }}>
+            <div className={styles.tableWrapper}>
+                <table className={styles.table}>
                     <thead>
-                        <tr style={{ background: '#f1f5f9', textAlign: 'left' }}>
-                            <th style={thStyle}>Логін</th>
-                            <th style={thStyle}>Пароль</th>
-                            <th style={thStyle}>Група</th>
-                            <th style={thStyle}>Роль</th>
-                            <th style={thStyle}>Дія</th>
+                        <tr>
+                            <th className={styles.th}>Логін</th>
+                            <th className={styles.th}>Пароль</th>
+                            <th className={styles.th}>Група</th>
+                            <th className={styles.th}>Роль</th>
+                            <th className={styles.th}>Дія</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map(u => (
-                            <tr key={u.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
-                                <td style={tdStyle}>
+                            <tr key={u.id} className={styles.tr}>
+                                <td className={styles.td}>
                                     <input
                                         type="text"
                                         value={u.login_name}
                                         onChange={(e) => handleInputChange(u.id, 'login_name', e.target.value)}
-                                        style={inputStyle}
+                                        className={styles.input}
                                     />
                                 </td>
-                                <td style={tdStyle}>
+                                <td className={styles.td}>
                                     <input
                                         type="text"
                                         value={u.password || ''}
                                         onChange={(e) => handleInputChange(u.id, 'password', e.target.value)}
-                                        style={inputStyle}
+                                        className={styles.input}
                                     />
                                 </td>
-                                <td style={tdStyle}>{u.group_name}</td>
-                                <td style={tdStyle}>
+                                <td className={styles.td}>{u.group_name}</td>
+                                <td className={styles.td}>
                                     <select
                                         value={u.role || ''}
                                         onChange={(e) => handleInputChange(u.id, 'role', e.target.value)}
-                                        style={{ ...inputStyle, cursor: 'pointer' }}
+                                        className={styles.select}
                                     >
                                         <option value="guest">guest</option>
                                         <option value="monitor">monitor</option>
@@ -109,10 +108,10 @@ export const AdminPage = () => {
                                         <option value="admin">admin</option>
                                     </select>
                                 </td>
-                                <td style={tdStyle}>
+                                <td className={styles.td}>
                                     <button
                                         onClick={() => saveChanges(u)}
-                                        style={saveBtnStyle}
+                                        className={styles.saveBtn}
                                     >
                                         Зберегти
                                     </button>
@@ -124,25 +123,4 @@ export const AdminPage = () => {
             </div>
         </div>
     );
-};
-
-// Міні-стилі для чистоти коду
-const thStyle: React.CSSProperties = { padding: '12px', border: '1px solid #ddd', fontSize: '14px' };
-const tdStyle: React.CSSProperties = { padding: '8px', border: '1px solid #ddd' };
-const inputStyle: React.CSSProperties = {
-    width: '90%',
-    padding: '6px',
-    border: '1px solid #cbd5e1',
-    borderRadius: '4px',
-    fontSize: '13px'
-};
-const saveBtnStyle: React.CSSProperties = {
-    backgroundColor: '#16a34a',
-    color: 'white',
-    border: 'none',
-    padding: '6px 12px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-    fontSize: '12px'
 };

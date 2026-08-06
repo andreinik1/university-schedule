@@ -1,0 +1,209 @@
+.editorPage {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #334155;
+  padding-bottom: 15px;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  h2 {
+    margin: 0;
+    color: #1e293b;
+  }
+}
+
+.btnGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.actionBtn {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.actionBtnDelete {
+  composes: actionBtn;
+  background: #ef4444;
+}
+
+.controlsArea {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+.syncLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  background: #f1f5f9;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.saveAllBtn {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  min-width: 130px;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.dayContainer {
+  margin-bottom: 40px;
+}
+
+.dayHeader {
+  background: #334155;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 8px 8px 0 0;
+
+  h3 {
+    text-transform: uppercase;
+    margin: 0;
+  }
+}
+
+.lessonRow {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-top: none;
+}
+
+.rowControls {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.arrowBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  font-size: 12px;
+  padding: 2px;
+  line-height: 1;
+
+  &:hover {
+    color: #475569;
+  }
+}
+
+.lessonBadge {
+  background: #ef4444;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.lessonForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formTitle {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: bold;
+}
+
+.input {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: #3b82f6;
+  }
+}
+
+.roomSelect {
+  composes: input;
+  width: 80px;
+  cursor: pointer;
+}
+
+.roomInput {
+  composes: input;
+  flex: 1;
+}
+
+.roomRow {
+  display: flex;
+  gap: 5px;
+}
+
+.delBtn {
+  background: #94a3b8;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: #64748b;
+  }
+}

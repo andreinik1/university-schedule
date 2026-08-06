@@ -2,15 +2,15 @@ import React from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 import { useAuth } from './hooks/useAuth';
-import { SchedulePage } from './pages/SchedulePage';
-import { LoginPage } from './pages/LoginPage';
-import { Navbar } from './components/layout/Navbar';
-import { DeanPage } from './pages/DeanPage';
-import { AttendancePage } from './pages/AttendancePage';
-import { AdminPage } from './pages/AdminPage';
-import { ScheduleEditorPage } from './pages/ScheduleEditorPage'; // ІМПОРТ НОВОЇ СТОРІНКИ
-import { Footer } from './components/layout/Footer';
-import { NewsPage } from './pages/NewsPage';
+import { SchedulePage } from './pages/SchedulePage/SchedulePage';
+import { LoginPage } from './pages/LoginPage/LoginPage';
+import { Navbar } from './components/layout/Navbar/Navbar';
+import { DeanPage } from './pages/DeanPage/DeanPage';
+import { AttendancePage } from './pages/AttendancePage/AttendancePage';
+import { AdminPage } from './pages/AdminPage/AdminPage';
+import { ScheduleEditorPage } from './pages/ScheduleEditorPage/ScheduleEditorPage';
+import { Footer } from './components/layout/Footer/Footer';
+import { NewsPage } from './pages/NewsPage/NewsPage';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
-  if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Завантаження...</div>;
+  if (loading) return <div className="loading">Завантаження...</div>;
   if (!user) return <Navigate to="/login" replace />;
   if (!allowedRoles.includes(user.role!)) return <Navigate to="/" replace />;
   return <>{children}</>;
@@ -29,9 +29,9 @@ const AppRoutes = () => {
   const { user } = useAuth();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="appContainer">
       <Navbar />
-      <main style={{ flex: '1 0 auto' }}>
+      <main className="mainContent">
         <Routes>
           <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" replace />} />
 
@@ -41,9 +41,8 @@ const AppRoutes = () => {
             </ProtectedRoute>
           } />
 
-
           <Route path="/news" element={
-            <ProtectedRoute allowedRoles={['monitor','admin', 'scientific_dept', 'dean']}>
+            <ProtectedRoute allowedRoles={['monitor', 'admin', 'scientific_dept', 'dean']}>
               <NewsPage />
             </ProtectedRoute>
           } />

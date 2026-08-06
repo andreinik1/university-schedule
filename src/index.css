@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -13,4 +14,21 @@ body {
   margin: 0;
   background-color: #f8f9fa;
   color: #333;
+}
+
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1 0 auto;
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: #64748b;
+  font-weight: 500;
 }
