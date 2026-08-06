@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../api/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 import { NewsForm } from './components/NewsForm';
@@ -20,6 +20,7 @@ export const NewsPage = () => {
     const [content, setContent] = useState('');
     const [isPosting, setIsPosting] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const isPostingRef = useRef(false);
 
     const canEdit = user && ['admin', 'dean', 'scientific_dept'].includes(user.role!);
     const canRead = user && ['admin', 'dean', 'scientific_dept', 'monitor'].includes(user.role!);
@@ -64,7 +65,10 @@ export const NewsPage = () => {
     }, [canRead]);
 
     const handlePublish = async () => {
+        if (isPostingRef.current) return;
         if (!title.trim() || !content.trim()) return alert("Заповніть всі поля!");
+        
+        isPostingRef.current = true;
         setIsPosting(true);
 
         try {
@@ -101,6 +105,7 @@ export const NewsPage = () => {
             console.error("Помилка:", error);
             alert("Помилка бази даних: " + message);
         } finally {
+            isPostingRef.current = false;
             setIsPosting(false);
         }
     };
