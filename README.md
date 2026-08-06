@@ -8,24 +8,23 @@
 
 Comprehensive web application designed for university schedule management, daily attendance tracking, and administrative analytics. Built with a modern frontend stack, role-based access control, and seamless database integration with offline fallback capabilities.
 
-🚀 **[Live Demo](https://andreinik1.github.io/university-schedule/)**
+**[Live Demo](https://andreinik1.github.io/university-schedule/)**
 
 ---
 
-## 🔑 Demo Access Credentials
+## Quick Demo Access
 
-You can test the application using the built-in demo credentials or quick-login options:
+To explore all administrative features, analytical tools, and schedule editors, use the universal admin account below:
 
-* **Dean Office / Admin Panel:**
-  * **Login:** `dean_office`
-  * **Password:** `dean321`
-* **Group Monitor (Headman):**
-  * **Login:** `kn11`
-  * **Password:** `pass123`
+| Role | Username | Password | Accessible Features |
+| :--- | :--- | :--- | :--- |
+| **Full Admin Access** | `admin` | `admin` | Analytics Dashboard, Schedule Editor, Account Management, Announcements |
+
+> **Note:** The application includes a built-in offline mode with mock datasets, ensuring all charts, tables, and interfaces operate smoothly even without direct database access.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 * **📅 Schedule Editor & Viewer:** Interactive timetable customization supporting weekly parity (numerator / denominator), custom time slots, and room allocations.
 * **📊 Dean's Office Analytics & Reporting:** Real-time dashboards monitoring attendance percentages, student dynamics, and automatic generation of **PDF & Excel** reports.
@@ -35,7 +34,15 @@ You can test the application using the built-in demo credentials or quick-login 
 
 ---
 
-## 🛠️ Tech Stack & Tools
+## Photos of interface
+
+![News screenshot](./screenshots/univer-schedule-screen-2.png)
+![Statistics & reports screenshot](./screenshots/univer-schedule-screen-1.png)
+![Schedule management Screenshot](./screenshots/univer-schedule-screen-3.png)
+
+---
+
+## Tech Stack & Tools
 
 * **Frontend:** React 18, TypeScript, Vite
 * **Routing & State:** React Router (Hash Router for SPA deployment)
@@ -45,9 +52,27 @@ You can test the application using the built-in demo credentials or quick-login 
 
 ---
 
-## ⚙️ Local Development Setup
+## Local Development Setup
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/andreinik1/YOUR-REPO-NAME.git](https://github.com/andreinik1/YOUR-REPO-NAME.git)
-   cd YOUR-REPO-NAME
+   git clone [https://andreinik1.github.io/university-schedule/](https://andreinik1.github.io/university-schedule/)
+   cd university-schedule
+   ```
+
+2. **Install dependencies**
+  ```bash
+  npm install
+  ```
+
+3. **Configure Environment Variables**
+    Create a .env.local file in the root directory:
+    ```bash
+    VITE_SUPABASE_URL=your_supabase_project_url
+    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+    ```
+
+4. **Start local development serve**
+    ```bash
+    npm run dev
+    ```
