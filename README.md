@@ -8,7 +8,7 @@
 
 Comprehensive web application designed for university schedule management, daily attendance tracking, and administrative analytics. Built with a modern frontend stack, role-based access control, and seamless database integration with offline fallback capabilities.
 
-🚀 **[Live Demo](https://andreinik1.github.io/YOUR-REPO-NAME/)**
+🚀 **[Live Demo](https://andreinik1.github.io/university-schedule/)**
 
 ---
 
